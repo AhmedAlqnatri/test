@@ -2,17 +2,12 @@ package classes;
 
 public class User {
 
+	protected String Email;
+	protected String UserName; 
+	protected String Password;
+	protected UserName FullName;
+	protected String Gender;
 	
-	
-	private String Email;
-	private String UserName; 
-	private String Password;
-	private UserName FullName;
-	private String Gender;
-	private String Address;
-	private long PassportNo;
-	private String DateOfIssue;
-	private String ValidTo;
 	public String getEmail() {
 		return Email;
 	}
@@ -43,29 +38,6 @@ public class User {
 	public void setGender(String gender) {
 		Gender = gender;
 	}
-	public String getAddress() {
-		return Address;
-	}
-	public void setAddress(String address) {
-		Address = address;
-	}
-	public long getPassportNo() {
-		return PassportNo;
-	}
-	public void setPassportNo(long passportNo) {
-		PassportNo = passportNo;
-	}
-	public String getDateOfIssue() {
-		return DateOfIssue;
-	}
-	public void setDateOfIssue(String dateOfIssue) {
-		DateOfIssue = dateOfIssue;
-	}
-	public String getValidTo() {
-		return ValidTo;
-	}
-	public void setValidTo(String validTo) {
-		ValidTo = validTo;
-	}
+	
 	
 }
