@@ -13,6 +13,7 @@ public class VisaRequest {
 	public long getVisaId() {
 		return VisaId;
 	}
+	
 	public void setVisaId(long visaId) {
 		VisaId = visaId;
 	}
