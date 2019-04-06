@@ -16,7 +16,7 @@ public class Data {
 		adminfullname.setFirstName("ahmed");
 		adminfullname.setLastName("alqanatri");				
 		admin = new Admin("alqanatriahmed@gmail.com", "admin", "admin", adminfullname, "M");
-	
+		
 	
 	}
 	
