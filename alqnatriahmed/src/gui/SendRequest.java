@@ -1,6 +1,8 @@
 package gui;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.util.Locale;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
@@ -69,29 +72,38 @@ public class SendRequest extends javax.swing.JFrame {
 		frame.getContentPane().add(hRegister);
 
 		// UserName
-		JLabel hUsername = new JLabel("upload Photo :");
+		JLabel hUsername = new JLabel("Upload Photo :");
 		hUsername.setBounds(500, 54, 89, 14);
 		frame.getContentPane().add(hUsername);
-		// CustomerID
-		txtUsername1 = new JTextField("");
-		txtUsername1.setBounds(620, 54, 102, 20);
-		frame.getContentPane().add(txtUsername1);
+
+		JButton fc = new JButton("Choose File");
+		fc.setBounds(620, 43, 102, 20);
+		fc.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+//	            fileChooser.addChoosableFileFilter(new clas);
+//	            fileChooser.setAcceptAllFileFilterUsed(false);
+
+				int option = fileChooser.showOpenDialog(frame);
+				if (option == JFileChooser.APPROVE_OPTION) {
+					File file = fileChooser.getSelectedFile();
+					hUsername.setText("File Selected: " + file.getName());
+				} else {
+					hUsername.setText("Open command canceled");
+				}
+			}
+		});
+
+		frame.getContentPane().add(fc);
 
 		JLabel hPassword = new JLabel("Upload Document :");
 		hPassword.setBounds(500, 82, 89, 14);
 		frame.getContentPane().add(hPassword);
 		// Password
-		txtPassword = new JPasswordField();
-		txtPassword.setBounds(620, 77, 102, 20);
-		frame.getContentPane().add(txtPassword);
-
-		JLabel hConfirmPassword = new JLabel("Confirm Password :");
-		hConfirmPassword.setBounds(500, 110, 160, 14);
-		frame.getContentPane().add(hConfirmPassword);
-		// Confirm Password
-		txtConfirmPassword = new JPasswordField();
-		txtConfirmPassword.setBounds(620, 110, 102, 20);
-		frame.getContentPane().add(txtConfirmPassword);
+		JButton fc1 = new JButton("Choose File");
+		fc1.setBounds(620, 77, 102, 20);
+		frame.getContentPane().add(fc1);
 
 		// End User Info
 
@@ -143,7 +155,7 @@ public class SendRequest extends javax.swing.JFrame {
 		txtFname = new JTextField("");
 		txtFname.setBounds(217, 47, 176, 20);
 		frame.getContentPane().add(txtFname);
-		 txtFname.setText(getUser(username).getFullName().getFirstName());
+		txtFname.setText(getUser(username).getFullName().getFirstName());
 
 		// LastName
 		txtLname = new JTextField("");
@@ -167,46 +179,25 @@ public class SendRequest extends javax.swing.JFrame {
 		txtAddress.setBounds(217, 170, 176, 20);
 		frame.getContentPane().add(txtAddress);
 		txtAddress.setText(getUser(username).getAddress());
-		
+
 		// Passport
 		txtPassport = new JTextField("");
 		txtPassport.setBounds(217, 200, 176, 20);
 		frame.getContentPane().add(txtPassport);
 		txtPassport.setText(getUser(username).getPassportNo());
-		
+
 		// DateOfIssue
 		txtDateOfIssue = new JTextField("");
 		txtDateOfIssue.setBounds(217, 230, 176, 20);
 		frame.getContentPane().add(txtDateOfIssue);
 		txtDateOfIssue.setText(getUser(username).getDateOfIssue());
-		
+
 		// DateOfExpire
 		txtDateOfexpired = new JTextField("");
 		txtDateOfexpired.setBounds(217, 260, 176, 20);
 		frame.getContentPane().add(txtDateOfexpired);
 
 		txtDateOfexpired.setText(getUser(username).getValidTo());
-//		// Countries
-//		ArrayList<String> countries = new ArrayList<String>();
-//
-//		String[] countryCodes = Locale.getISOCountries();
-//		for (String countryCode : countryCodes) {
-//
-//			Locale locale = new Locale("", countryCode);
-//			String name = locale.getDisplayCountry();
-//			countries.add(name);
-//		}
-//
-//		String str[] = new String[countries.size()];
-//		// ArrayList to Array Conversion
-//		for (int j = 0; j < countries.size(); j++) {
-//			// Assign each value to String array
-//			str[j] = countries.get(j);
-//		}
-//
-//		country = new JComboBox<>(str);
-//		country.setBounds(217, 290, 176, 20);
-//		frame.getContentPane().add(country);
 
 		// Save Button
 		JButton btnSave = new JButton("Send Now");
