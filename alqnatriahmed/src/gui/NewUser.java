@@ -1,134 +1,264 @@
 package gui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.*;
+
+import classes.Data;
+import classes.UserName;
+import classes.Validation;
+import gui.MainFrame.NewUserlListener;
+
 import javax.imageio.ImageIO;
 
 public class NewUser extends javax.swing.JFrame {
 
-	private JTextField txtUsername;
+	private JTextField txtFname, txtLname, txtUsername1;
 	private JPasswordField txtPassword;
 	private JPasswordField txtConfirmPassword;
-	private JTextField txtName, txtAddress , txtPassport;
+	private JTextField txtAddress, txtPassport, txtDateOfIssue, txtDateOfexpired;
 	private JTextField txtEmail;
 	BufferedImage image;
 	JFrame frame;
+	JComboBox<String> gender;
+	JComboBox<String> country;
+	//Data data = new Data();
+
 	private String[] genders = new String[] { "Male", "Female" };
 	// private JComboBox gender;
 
 	public void initComponents() {
 		frame = new JFrame();
-
+		//
 		try {
-			image = ImageIO.read(new File("./fei_800.png"));
+			image = ImageIO.read(new File("./fiit_logo.png"));
 			frame.setIconImage(image);
-			//
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 
 		}
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 500, 500);
+		frame.setBounds(100, 100, 800, 500);
 		frame.setTitle("E-visa New User");
 		frame.getContentPane().setLayout(null);
 
-		//
-
-		// Header Title
-		JLabel hRegister = new JLabel("Register Data");
+		// User Register info
+		JLabel hRegister = new JLabel("User Register info");
 		hRegister.setFont(new Font("Tahoma", Font.BOLD, 13));
 		hRegister.setHorizontalAlignment(SwingConstants.CENTER);
-		hRegister.setBounds(121, 11, 132, 20);
+		hRegister.setBounds(500, 11, 132, 20);
 		frame.getContentPane().add(hRegister);
 
-		// *** Header ***//
-		JLabel hUsername = new JLabel("First Name :");
-		hUsername.setBounds(78, 52, 89, 14);
+		// UserName
+		JLabel hUsername = new JLabel("UserName :");
+		hUsername.setBounds(500, 54, 89, 14);
 		frame.getContentPane().add(hUsername);
-
-		JLabel hName = new JLabel("Last Name :");
-		hName.setBounds(78, 84, 89, 14);
-
-		frame.getContentPane().add(hName);
-
-		JLabel hConfirmPassword = new JLabel("Confirm Password :");
-		hConfirmPassword.setBounds(77, 113, 130, 14);
-		frame.getContentPane().add(hConfirmPassword);
+		// CustomerID
+		txtUsername1 = new JTextField("");
+		txtUsername1.setBounds(620, 54, 102, 20);
+		frame.getContentPane().add(txtUsername1);
 
 		JLabel hPassword = new JLabel("Password :");
-		hPassword.setBounds(78, 148, 89, 14);
+		hPassword.setBounds(500, 82, 89, 14);
 		frame.getContentPane().add(hPassword);
+		// Password
+		txtPassword = new JPasswordField();
+		txtPassword.setBounds(620, 77, 102, 20);
+		frame.getContentPane().add(txtPassword);
+
+		JLabel hConfirmPassword = new JLabel("Confirm Password :");
+		hConfirmPassword.setBounds(500, 110, 160, 14);
+		frame.getContentPane().add(hConfirmPassword);
+		// Confirm Password
+		txtConfirmPassword = new JPasswordField();
+		txtConfirmPassword.setBounds(620, 110, 102, 20);
+		frame.getContentPane().add(txtConfirmPassword);
+
+		// End User Info
+
+		// User Data
+		JLabel huserdata = new JLabel("User Data");
+		huserdata.setFont(new Font("Tahoma", Font.BOLD, 13));
+		huserdata.setHorizontalAlignment(SwingConstants.CENTER);
+		huserdata.setBounds(121, 11, 132, 20);
+		frame.getContentPane().add(huserdata);
+
+		// *** Header ***//
+		JLabel hFName = new JLabel("First Name :");
+		hFName.setBounds(78, 52, 89, 14);
+		frame.getContentPane().add(hFName);
+
+		JLabel hLName = new JLabel("Last Name :");
+		hLName.setBounds(78, 84, 89, 14);
+		frame.getContentPane().add(hLName);
 
 		JLabel hEmail = new JLabel("Email :");
-		hEmail.setBounds(80, 176, 89, 14);
+		hEmail.setBounds(80, 112, 89, 14);
 		frame.getContentPane().add(hEmail);
 
 		JLabel hGender = new JLabel("gender :");
-		hGender.setBounds(80, 206, 89, 14);
+		hGender.setBounds(80, 142, 89, 14);
 		frame.getContentPane().add(hGender);
 
 		JLabel hAdress = new JLabel("Address :");
-		hAdress.setBounds(80, 236, 89, 14);
+		hAdress.setBounds(80, 172, 89, 14);
 		frame.getContentPane().add(hAdress);
 
 		JLabel hPassNo = new JLabel("Passport No. :");
-		hPassNo.setBounds(80, 263, 89, 14);
+		hPassNo.setBounds(80, 202, 89, 14);
 		frame.getContentPane().add(hPassNo);
 
-		JLabel hDateBirth = new JLabel("DateBirth :");
-		hDateBirth.setBounds(80, 290, 89, 14);
-		frame.getContentPane().add(hDateBirth);
+		JLabel hDateofissue = new JLabel("Date of issue :");
+		hDateofissue.setBounds(80, 232, 89, 14);
+		frame.getContentPane().add(hDateofissue);
 
-		// CustomerID
-		txtUsername = new JTextField("");
-		txtUsername.setBounds(217, 47, 99, 20);
-		frame.getContentPane().add(txtUsername);
+		JLabel hDateofexpired = new JLabel("Date of expired :");
+		hDateofexpired.setBounds(80, 262, 92, 14);
+		frame.getContentPane().add(hDateofexpired);
 
-		// Password
-		txtPassword = new JPasswordField();
-		txtPassword.setBounds(217, 77, 102, 20);
-		frame.getContentPane().add(txtPassword);
+		JLabel hCountry = new JLabel("Country :");
+		hCountry.setBounds(80, 292, 92, 14);
+		frame.getContentPane().add(hCountry);
 
-		// Confirm Password
-		txtConfirmPassword = new JPasswordField();
-		txtConfirmPassword.setBounds(217, 112, 102, 20);
-		frame.getContentPane().add(txtConfirmPassword);
+		// FirstName
+		txtFname = new JTextField("");
+		txtFname.setBounds(217, 47, 176, 20);
+		frame.getContentPane().add(txtFname);
 
-		// Name
-		txtName = new JTextField("");
-		txtName.setBounds(217, 140, 176, 20);
-		frame.getContentPane().add(txtName);
+		// LastName
+		txtLname = new JTextField("");
+		txtLname.setBounds(217, 78, 176, 20);
+		frame.getContentPane().add(txtLname);
 
 		// Email
 		txtEmail = new JTextField("");
-		txtEmail.setBounds(217, 172, 176, 20);
+		txtEmail.setBounds(217, 110, 176, 20);
 		frame.getContentPane().add(txtEmail);
 
 		// gender
-		JComboBox<String> gender = new JComboBox<>(genders);
-		gender.setBounds(217, 200, 176, 20);
+		gender = new JComboBox<>(genders);
+		gender.setBounds(217, 140, 176, 20);
 		frame.getContentPane().add(gender);
 
 		// Address
 		txtAddress = new JTextField("");
-		txtAddress.setBounds(217, 230, 176, 20);
+		txtAddress.setBounds(217, 170, 176, 20);
 		frame.getContentPane().add(txtAddress);
 
-		// Address
+		// Passport
 		txtPassport = new JTextField("");
-		txtPassport.setBounds(217, 260, 176, 20);
+		txtPassport.setBounds(217, 200, 176, 20);
 		frame.getContentPane().add(txtPassport);
-		
-		// Address
-		txtAddress = new JTextField("");
-		txtAddress.setBounds(217, 230, 176, 20);
-		frame.getContentPane().add(txtAddress);
+
+		// DateOfIssue
+		txtDateOfIssue = new JTextField("");
+		txtDateOfIssue.setBounds(217, 230, 176, 20);
+		frame.getContentPane().add(txtDateOfIssue);
+
+		// DateOfExpire
+		txtDateOfexpired = new JTextField("");
+		txtDateOfexpired.setBounds(217, 260, 176, 20);
+		frame.getContentPane().add(txtDateOfexpired);
+
+		// Countries
+		ArrayList<String> countries = new ArrayList<String>();
+
+		String[] countryCodes = Locale.getISOCountries();
+		for (String countryCode : countryCodes) {
+
+			Locale locale = new Locale("", countryCode);
+			String name = locale.getDisplayCountry();
+			countries.add(name);
+		}
+
+		String str[] = new String[countries.size()];
+		// ArrayList to Array Conversion
+		for (int j = 0; j < countries.size(); j++) {
+			// Assign each value to String array
+			str[j] = countries.get(j);
+		}
+
+		country = new JComboBox<>(str);
+		country.setBounds(217, 290, 176, 20);
+		frame.getContentPane().add(country);
+
 		// Save Button
 		JButton btnSave = new JButton("Save");
+		btnSave.setBounds(500, 200, 200, 30);
+		frame.getContentPane().add(btnSave);
+		btnSave.addActionListener(new NewUserRegListener());
+
 		frame.setVisible(true);
+
+	}
+
+	public class NewUserRegListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+
+			ArrayList<String> str = new ArrayList<String>();
+
+			classes.UserName fullname = new classes.UserName();
+			fullname.setFirstName(txtFname.getText());
+			fullname.setLastName(txtLname.getText());
+
+			classes.NewUser newuser = new classes.NewUser();
+
+			if (Validation.checkUniqeUserName(txtUsername1.getText(), Data.newusers))
+				newuser.setUserName(txtUsername1.getText());
+			else
+				str.add("UserName Must be uniqe");
+
+			newuser.setAddress(txtAddress.getText());
+
+			if (Validation.isValidDate(txtDateOfIssue.getText()))
+				newuser.setDateOfIssue(txtDateOfIssue.getText());
+			else
+				str.add("check Date of Issue Format(/dd/mm/yyyy)");
+
+			if (Validation.isValidDate(txtDateOfexpired.getText()))
+				newuser.setValidTo(txtDateOfexpired.getText());
+			else
+				str.add("check Date of expired Format(/dd/mm/yyyy)");
+
+			newuser.setGender(gender.getSelectedItem().toString());
+			newuser.setFullName(fullname);
+
+			if (Validation.isValidEmail(txtEmail.getText()))
+				newuser.setEmail(txtEmail.getText());
+			else
+				str.add("email must be like (example@example.com)");
+
+			newuser.setPassportNo(txtPassport.getText());
+			newuser.setCountry(country.getSelectedItem().toString());
+
+			if (Validation.checkPassword(txtPassword.getText(), txtConfirmPassword.getText()))
+				newuser.setPassword(txtPassword.getText());
+			else
+				str.add("Password & Confirmation Password must be same");
+
+			if (str.size() == 0) {
+				Data.newusers.add(newuser);
+				JOptionPane.showMessageDialog(null, "Successfully User Added");
+				frame.setVisible(false);
+			} else {
+				String result = "";
+				for (String string : str) {
+					result += "- " + string + "\n";
+				}
+				JOptionPane.showMessageDialog(null, result);
+			}
+
+		}
 
 	}
 

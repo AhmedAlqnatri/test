@@ -4,12 +4,11 @@ public class Admin extends User {
 
 	public Admin(String email , String adminName , String password ,UserName adminFullName , String Gender)
 	{
-		this.Email = email;
-		this.UserName = adminName;
-		this.Password = password;
-		this.FullName.setFirstName(adminFullName.getFirstName());
-		this.FullName.setLastName(adminFullName.getLastName());
-		this.Gender = Gender;	
+		super.Email = email;
+		super.UserName = adminName;
+		super.Password = password;
+		super.setFullName(adminFullName);
+		super.Gender = Gender;	
 	}
 	
 }
