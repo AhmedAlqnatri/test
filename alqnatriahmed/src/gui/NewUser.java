@@ -121,6 +121,7 @@ public class NewUser extends javax.swing.JFrame {
 		txtPassport = new JTextField("");
 		txtPassport.setBounds(217, 260, 176, 20);
 		frame.getContentPane().add(txtPassport);
+		
 		// Address
 		txtAddress = new JTextField("");
 		txtAddress.setBounds(217, 230, 176, 20);
