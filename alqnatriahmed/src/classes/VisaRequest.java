@@ -8,8 +8,8 @@ public class VisaRequest {
 	private String UserName = null;
 	private UserName FullName = null;
 	private String ToCountry = null;
-	private Date ApplyDate = null;
-	private Boolean Status = false;
+	private String ApplyDate = null;
+	private String Status = "False";
 	public long getVisaId() {
 		return VisaId;
 	}
@@ -35,16 +35,16 @@ public class VisaRequest {
 	public void setToCountry(String toCountry) {
 		ToCountry = toCountry;
 	}
-	public Date getApplyDate() {
+	public String getApplyDate() {
 		return ApplyDate;
 	}
-	public void setApplyDate(Date applyDate) {
+	public void setApplyDate(String applyDate) {
 		ApplyDate = applyDate;
 	}
-	public Boolean getStatus() {
+	public String getStatus() {
 		return Status;
 	}
-	public void setStatus(Boolean status) {
+	public void setStatus(String status) {
 		Status = status;
 	}
 	

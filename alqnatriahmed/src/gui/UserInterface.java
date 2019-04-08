@@ -1,38 +1,52 @@
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import classes.Data;
+import classes.NewUser;
+import classes.UserName;
+import gui.NewUser.NewUserRegListener;
 
 public class UserInterface extends javax.swing.JFrame {
 
 	JTable table;
-	JFrame frame;
-	String[] columnNames = { "First Name", "Last Name", "Sport", "# of Years", "Vegetarian" };
 	BufferedImage image;
-	Object[][] data = { { "Kathy", "Smith", "Snowboarding", new Integer(5), new Boolean(false) },
-			{ "John", "Doe", "Rowing", new Integer(3), new Boolean(true) },
-			{ "Sue", "Black", "Knitting", new Integer(2), new Boolean(false) },
-			{ "Jane", "White", "Speed reading", new Integer(20), new Boolean(true) },
-			{ "Joe", "Brown", "Pool", new Integer(10), new Boolean(false) } };
-
-	public void initComponents() {
+	JFrame frame;
+	JPanel jpanel1;
+	JPanel jpanel2;;
+	public static String user ;
+	public void initComponents(String username) {
+		user = username;
+		String column[] = { "UserName", "Request Date", "To Country", "Status" };
+		String data[][] = getVisaRequest(username);
 		frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-		frame.setSize(500, 400);
+		frame.setBounds(0, 0, 800, 500);
+		JTable jt = new JTable(data, column);
+		JScrollPane sp = new JScrollPane(jt);
+		sp.setBounds(0, 0, 800, 250);
+		jpanel1 = new JPanel();
+		jpanel1.setBounds(0, 0, 800, 250);
+		jpanel1.add(sp);
+
+		JButton sendrequest = new JButton("Send Requset");
+		sendrequest.setBounds(50, 50, 100, 20);
+		sendrequest.addActionListener(new NewUserRequestlListener());
+
+		jpanel1.add(sendrequest);
+		frame.add(jpanel1);
+
 		frame.setVisible(true);
-		frame.setLocationRelativeTo(null);
-		
-		table = new JTable(data, columnNames);
-		JScrollPane scrollPane = new JScrollPane(table);
-		table.setFillsViewportHeight(true);
-		
 		try {
 			image = ImageIO.read(new File("./fiit_logo.png"));
 			frame.setIconImage(image);
@@ -41,9 +55,36 @@ public class UserInterface extends javax.swing.JFrame {
 			// TODO Auto-generated catch block
 
 		}
-		
-		frame.add(table);
-		
+
+	}
+	
+	public class NewUserRequestlListener implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			new SendRequest().initcomponents(UserInterface.user);
+		}
+	}
+	
+	
+	public static String[][] getVisaRequest(String username) {
+		int i = 0;
+		String[][] result = new String[Data.visarequests.size()][5];
+		for (classes.VisaRequest visarequest : Data.visarequests) {
+			if (visarequest.getUserName().equalsIgnoreCase(username)) {
+				result[i][0] = visarequest.getUserName();
+				result[i][1] = visarequest.getApplyDate();
+				result[i][2] = visarequest.getToCountry();
+				if (visarequest.getStatus().equalsIgnoreCase("True"))
+					result[i][3] = "Accepted";
+				else
+					result[i][3] = "Rejected";
+
+				i++;
+
+			}
+
+		}
+		return result;
 	}
 
+	
 }

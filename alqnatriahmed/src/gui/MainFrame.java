@@ -20,6 +20,7 @@ public class MainFrame {
 	JButton btnRegisterNewUser;
 
 	public void initcomponents() {
+		Data data = new Data();
 		frame = new JFrame();
 		frame.setTitle("E-visa LogIn");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,11 +75,12 @@ public class MainFrame {
 	public class LoginListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			ArrayList<String> result = login(txtUsername.getText(), txtPassword.getText(), Data.newusers);
-			if (result.size() == 0 && Data.newusers.size() != 0) {
-				new UserInterface().initComponents();
-				
+		//	System.out.println(Data.newusers);
+			if (result.size() == 0 && Data.newusers.size() !=0) {
+				new UserInterface().initComponents(txtUsername.getText());	
 			} else {
 				JOptionPane.showMessageDialog(null, result);
+
 			}
 		}
 	}
