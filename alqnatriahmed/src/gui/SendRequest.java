@@ -4,9 +4,13 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageFilter;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
@@ -20,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import classes.Data;
+import classes.VisaRequest;
 import gui.NewUser.NewUserRegListener;
 
 public class SendRequest extends javax.swing.JFrame {
@@ -33,6 +38,7 @@ public class SendRequest extends javax.swing.JFrame {
 	JFrame frame;
 	JComboBox<String> gender;
 	JComboBox<String> country;
+	public static String user ;
 	// Data data = new Data();
 
 	private String[] genders = new String[] { "Male", "Female" };
@@ -49,6 +55,7 @@ public class SendRequest extends javax.swing.JFrame {
 
 	public void initcomponents(String username) {
 		frame = new JFrame();
+		user = username;
 		//
 		try {
 			image = ImageIO.read(new File("./fiit_logo.png"));
@@ -73,36 +80,60 @@ public class SendRequest extends javax.swing.JFrame {
 
 		// UserName
 		JLabel hUsername = new JLabel("Upload Photo :");
-		hUsername.setBounds(500, 54, 89, 14);
+		hUsername.setBounds(500, 54, 100, 14);
 		frame.getContentPane().add(hUsername);
-
+		
+		JLabel himageselected = new JLabel("No Image Selected");
+		himageselected.setBounds(500, 70, 120, 14);
+		frame.getContentPane().add(himageselected);
+		
 		JButton fc = new JButton("Choose File");
 		fc.setBounds(620, 43, 102, 20);
 		fc.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
-//	            fileChooser.addChoosableFileFilter(new clas);
-//	            fileChooser.setAcceptAllFileFilterUsed(false);
+	            fileChooser.addChoosableFileFilter(new gui.ImageFilter());
+	            fileChooser.setAcceptAllFileFilterUsed(false);
 
 				int option = fileChooser.showOpenDialog(frame);
 				if (option == JFileChooser.APPROVE_OPTION) {
 					File file = fileChooser.getSelectedFile();
-					hUsername.setText("File Selected: " + file.getName());
+					himageselected.setText(file.getName());
 				} else {
-					hUsername.setText("Open command canceled");
+					himageselected.setText("Open command canceled");
 				}
 			}
 		});
 
 		frame.getContentPane().add(fc);
-
+		
+		
+		
 		JLabel hPassword = new JLabel("Upload Document :");
-		hPassword.setBounds(500, 82, 89, 14);
+		hPassword.setBounds(500, 100, 110, 14);
 		frame.getContentPane().add(hPassword);
-		// Password
+		
+		JLabel himageselected2 = new JLabel("No Image Selected");
+		himageselected2.setBounds(500, 115, 120, 14);
+		frame.getContentPane().add(himageselected2);
 		JButton fc1 = new JButton("Choose File");
-		fc1.setBounds(620, 77, 102, 20);
+		fc1.setBounds(620, 100, 102, 20);
+		fc1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				int option = fileChooser.showOpenDialog(frame);
+				if (option == JFileChooser.APPROVE_OPTION) {
+					File file = fileChooser.getSelectedFile();
+					himageselected2.setText(file.getName());
+				} else {
+					himageselected2.setText("Open command canceled");
+				}
+			}
+		});
+		
+		
 		frame.getContentPane().add(fc1);
 
 		// End User Info
@@ -203,6 +234,29 @@ public class SendRequest extends javax.swing.JFrame {
 		JButton btnSave = new JButton("Send Now");
 		btnSave.setBounds(500, 200, 200, 30);
 		frame.getContentPane().add(btnSave);
+		
+		
+		
+		btnSave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				classes.VisaRequest vr = new VisaRequest();
+				classes.UserName username = new classes.UserName();
+				username.setFirstName(txtFname.getText());
+				username.setLastName(txtLname.getText());
+				vr.setFullName(username);
+				vr.setUserName(user);
+				vr.setToCountry("Solvakia");
+				vr.setStatus("Waiting");
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				Date date = new Date();
+				vr.setApplyDate(dateFormat.format(date));
+				Data.visarequests.add(vr);
+				frame.setVisible(false);
+				new UserInterface().initComponents(user);
+			}
+		});
 
 		frame.setVisible(true);
 

@@ -248,6 +248,8 @@ public class NewUser extends javax.swing.JFrame {
 
 			if (str.size() == 0) {
 				Data.newusers.add(newuser);
+				System.out.println(newuser.getUserName());
+				System.out.println(newuser.getPassword());
 				JOptionPane.showMessageDialog(null, "Successfully User Added");
 				frame.setVisible(false);
 			} else {

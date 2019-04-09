@@ -30,7 +30,7 @@ public class Data {
 		VisaRequest vr = new VisaRequest();
 		vr.setFullName(adminfullname);
 		vr.setUserName("ahmed");
-		vr.setStatus("False");
+		vr.setStatus("Waiting");
 		vr.setToCountry("Syria");
 		vr.setApplyDate("12/12/2018");
 		visarequests.add(vr);

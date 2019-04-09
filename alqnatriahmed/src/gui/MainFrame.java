@@ -52,34 +52,45 @@ public class MainFrame {
 
 	}
 
-	public static ArrayList<String> login(String username, String password, ArrayList<classes.NewUser> users) {
-		ArrayList<String> errorlogindeatils = new ArrayList<String>();
+//	public static ArrayList<String> login(String username, String password) {
+//		ArrayList<String> errorlogindeatils = new ArrayList<String>();
+//
+//		for (classes.NewUser newUser : Data.newusers) {
+//			if (username.equalsIgnoreCase(newUser.getUserName())) {
+//				if (password.equalsIgnoreCase(newUser.getPassword())) {
+//					return errorlogindeatils;
+//				} else {
+//					errorlogindeatils.add("Password is inCorrect");
+//					return errorlogindeatils;
+//				}
+//			} else {
+//				errorlogindeatils.add("User isn't existed");
+//				return errorlogindeatils;
+//			}
+//		}
+//		return errorlogindeatils;
+//
+//	}
 
-		for (classes.NewUser newUser : users) {
+	public static boolean login(String username, String password) {
+		for (classes.NewUser newUser : Data.newusers) {
 			if (username.equalsIgnoreCase(newUser.getUserName())) {
-				if (password.equalsIgnoreCase(newUser.getPassword())) {
-					return errorlogindeatils;
-				} else {
-					errorlogindeatils.add("Password is inCorrect");
-					return errorlogindeatils;
-				}
-			} else {
-				errorlogindeatils.add("User isn't existed");
-				return errorlogindeatils;
+				if (password.equalsIgnoreCase(newUser.getPassword()))
+					return true;
 			}
 		}
-		return errorlogindeatils;
-
+		return false;
 	}
 
 	public class LoginListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			ArrayList<String> result = login(txtUsername.getText(), txtPassword.getText(), Data.newusers);
-		//	System.out.println(Data.newusers);
-			if (result.size() == 0 && Data.newusers.size() !=0) {
-				new UserInterface().initComponents(txtUsername.getText());	
+			System.out.println(Data.newusers);
+			// System.out.println(Data.newusers);
+			if (login(txtUsername.getText(), txtPassword.getText())) {
+				new UserInterface().initComponents(txtUsername.getText());
+				frame.setVisible(false);
 			} else {
-				JOptionPane.showMessageDialog(null, result);
+				JOptionPane.showMessageDialog(null, "Invalid Cred");
 
 			}
 		}
