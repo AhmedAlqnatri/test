@@ -1,43 +1,53 @@
 package classes;
 
-public class User {
+import java.util.ArrayList;
 
-	protected String Email;
-	protected String UserName; 
-	protected String Password;
-	protected UserName FullName;
-	protected String Gender;
-	
-	public String getEmail() {
-		return Email;
+public class User extends Person {
+
+	private String Address;
+	private String PassportNo;
+	private String DateOfIssue;
+	private String ValidTo;
+	private String Country;
+
+	public String getAddress() {
+		return Address;
 	}
-	public void setEmail(String email) {
-		Email = email;
+
+	public void setAddress(String address) {
+		Address = address;
 	}
-	public String getUserName() {
-		return UserName;
+
+	public String getPassportNo() {
+		return PassportNo;
 	}
-	public void setUserName(String userName) {
-		UserName = userName;
+
+	public void setPassportNo(String passportNo) {
+		PassportNo = passportNo;
 	}
-	public String getPassword() {
-		return Password;
+
+	public String getDateOfIssue() {
+		return DateOfIssue;
 	}
-	public void setPassword(String password) {
-		Password = password;
+
+	public void setDateOfIssue(String dateOfIssue) {
+		DateOfIssue = dateOfIssue;
 	}
-	public UserName getFullName() {
-		return FullName;
+
+	public String getValidTo() {
+		return ValidTo;
 	}
-	public void setFullName(UserName fullName) {
-		FullName = fullName;
+
+	public void setValidTo(String validTo) {
+		ValidTo = validTo;
 	}
-	public String getGender() {
-		return Gender;
+
+	public String getCountry() {
+		return Country;
 	}
-	public void setGender(String gender) {
-		Gender = gender;
+
+	public void setCountry(String country) {
+		Country = country;
 	}
-	
-	
+
 }

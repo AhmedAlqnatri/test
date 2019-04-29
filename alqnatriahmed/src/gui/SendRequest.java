@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import classes.Data;
+import classes.User;
 import classes.VisaRequest;
 import gui.NewUser.NewUserRegListener;
 
@@ -44,9 +45,9 @@ public class SendRequest extends javax.swing.JFrame {
 	private String[] genders = new String[] { "Male", "Female" };
 	// private JComboBox gender;
 
-	public static classes.NewUser getUser(String username) {
+	public static User getUser(String username) {
 
-		for (classes.NewUser user : Data.newusers) {
+		for (User user : Data.newusers) {
 			if (user.getUserName().equalsIgnoreCase(username))
 				return user;
 		}
@@ -254,12 +255,13 @@ public class SendRequest extends javax.swing.JFrame {
 				vr.setApplyDate(dateFormat.format(date));
 				Data.visarequests.add(vr);
 				frame.setVisible(false);
-				new UserInterface().initComponents(user);
+				new UserInterface().initComponents();
 			}
 		});
 
 		frame.setVisible(true);
 
 	}
+	
 
 }

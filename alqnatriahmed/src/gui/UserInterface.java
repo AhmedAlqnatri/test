@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -9,102 +11,71 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 import classes.Data;
-import classes.NewUser;
 import classes.UserName;
+import gui.MainFrame.LoginListener;
+import gui.MainFrame.NewUserlListener;
 import gui.NewUser.NewUserRegListener;
 
 public class UserInterface extends javax.swing.JFrame {
+	JFrame frame = null;
+	JPanel panel, panel2;
+	JLabel lbltitle;
+	JButton btnCreateVisaRequest;
+	JButton btnCheckVisaStatus;
+	JButton btnBack;
 
-	JTable table;
-	BufferedImage image;
-	JFrame frame;
-	JPanel jpanel1;
-	JPanel jpanel2;;
-	public static String user ;
-	public void initComponents(String username) {
-		user = username;
-		String column[] = { "UserName", "Request Date", "To Country", "Status" };
-		String data[][] = getVisaRequest(username);
+	public void initComponents() {
+
 		frame = new JFrame();
-		frame.setBounds(0, 0, 800, 500);
-		JTable jt = new JTable(data, column);
-		JScrollPane sp = new JScrollPane(jt);
-		sp.setBounds(0, 0, 800, 250);
-		jpanel1 = new JPanel();
-		jpanel1.setBounds(0, 0, 800, 250);
-		jpanel1.add(sp);
+		frame.setTitle("E-visa LogIn");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
 
-		JButton sendrequest = new JButton("Send Requset");
-		sendrequest.setBounds(50, 50, 100, 20);
-		sendrequest.addActionListener(new NewUserRequestlListener());
-		if(getCountVisaForUser(username) >=1)
-			sendrequest.setEnabled(false);
+		panel2 = new JPanel();
 		
-		JButton btnLogout = new JButton("Log Out");
-		btnLogout.setBounds(50, 100, 100, 20);
-		btnLogout.addActionListener(new NewUserLogoutListener());
-		jpanel1.add(sendrequest);
-		jpanel1.add(btnLogout);
-		frame.add(jpanel1);
+		frame.getContentPane().add(BorderLayout.NORTH, panel2);
+		lbltitle = new JLabel("User Services");
+		panel2.setPreferredSize(new Dimension(50, 50));
+		frame.add(panel2);
 
+		panel = new JPanel();
+		frame.getContentPane().add(BorderLayout.CENTER, panel);
+		
+		// Create Visa Button with Listener
+		btnCreateVisaRequest = new JButton("Create Visa Request");
+		btnCreateVisaRequest.addActionListener(new CreateVisaRequestListener());
+		btnCreateVisaRequest.setBounds(50, 50, 100, 20);
+		
+		// Create Check Visa Button Status with Listener
+		btnCheckVisaStatus = new JButton("Check Visa Status");
+		btnCheckVisaStatus.setBounds(50, 100, 100, 20);
+		btnCheckVisaStatus.addActionListener(new CheckVisaStatusListener());
+
+		panel.add(btnCreateVisaRequest);
+		panel.add(btnCheckVisaStatus);
+		
+		
+		frame.setSize(350, 200);
 		frame.setVisible(true);
-		try {
-			image = ImageIO.read(new File("./fiit_logo.png"));
-			frame.setIconImage(image);
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-
-		}
+		frame.setLocationRelativeTo(null);
 
 	}
-	
-	public class NewUserRequestlListener implements ActionListener {
+
+	public class CreateVisaRequestListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			new SendRequest().initcomponents(UserInterface.user);
-			frame.setVisible(false);
 		}
 	}
-	public class NewUserLogoutListener implements ActionListener {
+
+	public class CheckVisaStatusListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			frame.setVisible(false);
-			new MainFrame().initcomponents();
 		}
 	}
-	
-	
-	public static String[][] getVisaRequest(String username) {
-		int i = 0;
-		String[][] result = new String[Data.visarequests.size()][5];
-		for (classes.VisaRequest visarequest : Data.visarequests) {
-			if (visarequest.getUserName().equalsIgnoreCase(username)) {
-				result[i][0] = visarequest.getUserName();
-				result[i][1] = visarequest.getApplyDate();
-				result[i][2] = visarequest.getToCountry();
-				
-					result[i][3] = visarequest.getStatus();
-					i++;
 
-			}
-
-		}
-		return result;
-	}
-
-	
-	public static int getCountVisaForUser(String username) {
-		int i = 0;
-		for (classes.VisaRequest vr : Data.visarequests) {
-			if(vr.getUserName().equalsIgnoreCase(username))
-				i++;
-		}
-		return i;
-		
-	}
-	
 }

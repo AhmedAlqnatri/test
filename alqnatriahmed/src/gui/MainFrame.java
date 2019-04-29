@@ -13,9 +13,10 @@ public class MainFrame {
 	JTextField txtUsername = null;
 	JTextField txtPassword = null;
 	JFrame frame = null;
-	JPanel panel, panel2;
+	JPanel panel, panel2 , panelTitle;
 	JLabel lblUsername;
 	JLabel lblPassword;
+	JLabel lbltitle;
 	JButton btnLogin;
 	JButton btnRegisterNewUser;
 
@@ -25,6 +26,14 @@ public class MainFrame {
 		frame.setTitle("E-visa LogIn");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
+		
+		panelTitle = new JPanel();
+		frame.getContentPane().add(BorderLayout.NORTH, panelTitle);
+		lbltitle = new JLabel("Welcome To E-Visa App");
+		panelTitle.setPreferredSize(new Dimension(50,50));
+		panelTitle.add(lbltitle);
+		
+		
 		panel = new JPanel();
 		frame.getContentPane().add(BorderLayout.CENTER, panel);
 		panel2 = new JPanel();
@@ -51,29 +60,10 @@ public class MainFrame {
 		frame.setLocationRelativeTo(null);
 
 	}
-
-//	public static ArrayList<String> login(String username, String password) {
-//		ArrayList<String> errorlogindeatils = new ArrayList<String>();
-//
-//		for (classes.NewUser newUser : Data.newusers) {
-//			if (username.equalsIgnoreCase(newUser.getUserName())) {
-//				if (password.equalsIgnoreCase(newUser.getPassword())) {
-//					return errorlogindeatils;
-//				} else {
-//					errorlogindeatils.add("Password is inCorrect");
-//					return errorlogindeatils;
-//				}
-//			} else {
-//				errorlogindeatils.add("User isn't existed");
-//				return errorlogindeatils;
-//			}
-//		}
-//		return errorlogindeatils;
-//
-//	}
+	
 
 	public static boolean login(String username, String password) {
-		for (classes.NewUser newUser : Data.newusers) {
+		for (classes.User newUser : Data.newusers) {
 			if (username.equalsIgnoreCase(newUser.getUserName())) {
 				if (password.equalsIgnoreCase(newUser.getPassword()))
 					return true;
@@ -87,7 +77,7 @@ public class MainFrame {
 			System.out.println(Data.newusers);
 			// System.out.println(Data.newusers);
 			if (login(txtUsername.getText(), txtPassword.getText())) {
-				new UserInterface().initComponents(txtUsername.getText());
+				new UserInterface().initComponents();
 				frame.setVisible(false);
 			} else {
 				JOptionPane.showMessageDialog(null, "Invalid Cred");

@@ -1,6 +1,6 @@
 package classes;
 
-public class Admin extends User {
+public class Admin extends Person {
 
 	public Admin(String email , String adminName , String password ,UserName adminFullName , String Gender)
 	{

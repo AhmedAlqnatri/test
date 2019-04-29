@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 import javax.swing.*;
 
 import classes.Data;
+import classes.User;
 import classes.UserName;
 import classes.Validation;
 import gui.MainFrame.NewUserlListener;
@@ -211,12 +212,12 @@ public class NewUser extends javax.swing.JFrame {
 			fullname.setFirstName(txtFname.getText());
 			fullname.setLastName(txtLname.getText());
 
-			classes.NewUser newuser = new classes.NewUser();
+			User newuser = new User();
 
 			if (Validation.checkUniqeUserName(txtUsername1.getText(), Data.newusers))
 				newuser.setUserName(txtUsername1.getText());
 			else
-				str.add("UserName Must be uniqe");
+				str.add("UserName Must be unique");
 
 			newuser.setAddress(txtAddress.getText());
 

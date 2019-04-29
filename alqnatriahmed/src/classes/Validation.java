@@ -23,9 +23,9 @@ public class Validation {
 		return matcher.matches();
 	}
 
-	public static boolean checkUniqeUserName(String usernaem, ArrayList<NewUser> users) {
+	public static boolean checkUniqeUserName(String usernaem, ArrayList<User> users) {
 
-		for (NewUser newUser : users) {
+		for (User newUser : users) {
 			if (usernaem.equalsIgnoreCase(newUser.UserName))
 				return false;
 		}
