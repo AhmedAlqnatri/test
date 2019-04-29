@@ -1,11 +1,14 @@
 package gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import classes.Data;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainFrame {
@@ -58,6 +61,15 @@ public class MainFrame {
 		frame.setSize(350, 200);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
+		
+		try {
+			Image image = ImageIO.read(new File("./fiit_logo.png"));
+			frame.setIconImage(image);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+
+		}
 
 	}
 	

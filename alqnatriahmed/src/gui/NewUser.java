@@ -200,6 +200,15 @@ public class NewUser extends javax.swing.JFrame {
 		btnSave.addActionListener(new NewUserRegListener());
 
 		frame.setVisible(true);
+		
+		try {
+			Image image = ImageIO.read(new File("./fiit_logo.png"));
+			frame.setIconImage(image);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+
+		}
 
 	}
 
