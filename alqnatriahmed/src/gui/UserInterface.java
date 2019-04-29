@@ -53,7 +53,7 @@ public class UserInterface {
 
 		JPanel panel_1 = new JPanel();
 		springLayout.putConstraint(SpringLayout.NORTH, panel_1, 30, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, panel_1, 129, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, panel_1, 115, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, panel_1, -107, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(panel_1);
 		SpringLayout sl_panel_1 = new SpringLayout();
@@ -61,7 +61,7 @@ public class UserInterface {
 
 		JButton button = new JButton("Create Visa Application");
 		sl_panel_1.putConstraint(SpringLayout.NORTH, button, 10, SpringLayout.NORTH, panel_1);
-		sl_panel_1.putConstraint(SpringLayout.WEST, button, 20, SpringLayout.WEST, panel_1);
+		sl_panel_1.putConstraint(SpringLayout.EAST, button, -34, SpringLayout.EAST, panel_1);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -69,13 +69,19 @@ public class UserInterface {
 		panel_1.add(button);
 
 		JButton btnCheckVisaStatus = new JButton("Check Visa Status");
-		sl_panel_1.putConstraint(SpringLayout.NORTH, btnCheckVisaStatus, 6, SpringLayout.SOUTH, button);
+		sl_panel_1.putConstraint(SpringLayout.NORTH, btnCheckVisaStatus, 16, SpringLayout.SOUTH, button);
 		sl_panel_1.putConstraint(SpringLayout.WEST, btnCheckVisaStatus, 0, SpringLayout.WEST, button);
 		sl_panel_1.putConstraint(SpringLayout.EAST, btnCheckVisaStatus, 0, SpringLayout.EAST, button);
 		panel_1.add(btnCheckVisaStatus);
 
 		JPanel panel_2 = new JPanel();
-		springLayout.putConstraint(SpringLayout.SOUTH, panel_1, -83, SpringLayout.NORTH, panel_2);
+		springLayout.putConstraint(SpringLayout.SOUTH, panel_1, -29, SpringLayout.NORTH, panel_2);
+		
+		JButton btnNewButton = new JButton("Apply a complaint");
+		sl_panel_1.putConstraint(SpringLayout.NORTH, btnNewButton, 18, SpringLayout.SOUTH, btnCheckVisaStatus);
+		sl_panel_1.putConstraint(SpringLayout.WEST, btnNewButton, 0, SpringLayout.WEST, button);
+		sl_panel_1.putConstraint(SpringLayout.EAST, btnNewButton, 0, SpringLayout.EAST, button);
+		panel_1.add(btnNewButton);
 		springLayout.putConstraint(SpringLayout.NORTH, panel_2, -58, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, panel_2, -152, SpringLayout.EAST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, panel_2, -10, SpringLayout.SOUTH, frame.getContentPane());
@@ -91,6 +97,7 @@ public class UserInterface {
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
+		frame.setTitle("User Services");
 		try {
 			Image image = ImageIO.read(new File("./fiit_logo.png"));
 			frame.setIconImage(image);
