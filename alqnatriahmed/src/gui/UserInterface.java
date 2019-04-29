@@ -1,81 +1,92 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.EventQueue;
 
-import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.SpringLayout;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
 
-import classes.Data;
-import classes.UserName;
-import gui.MainFrame.LoginListener;
-import gui.MainFrame.NewUserlListener;
-import gui.NewUser.NewUserRegListener;
+public class UserInterface {
 
-public class UserInterface extends javax.swing.JFrame {
-	JFrame frame = null;
-	JPanel panel, panel2;
-	JLabel lbltitle;
-	JButton btnCreateVisaRequest;
-	JButton btnCheckVisaStatus;
-	JButton btnBack;
+	private JFrame frame;
 
-	public void initComponents() {
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					UserInterface window = new UserInterface();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
+	/**
+	 * Create the application.
+	 */
+	public UserInterface() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
 		frame = new JFrame();
-		frame.setTitle("E-visa LogIn");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-
-		panel2 = new JPanel();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		SpringLayout springLayout = new SpringLayout();
+		frame.getContentPane().setLayout(springLayout);
 		
-		frame.getContentPane().add(BorderLayout.NORTH, panel2);
-		lbltitle = new JLabel("User Services");
-		panel2.setPreferredSize(new Dimension(50, 50));
-		frame.add(panel2);
-
-		panel = new JPanel();
-		frame.getContentPane().add(BorderLayout.CENTER, panel);
+		JPanel panel_1 = new JPanel();
+		springLayout.putConstraint(SpringLayout.NORTH, panel_1, 30, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, panel_1, 129, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, panel_1, -107, SpringLayout.EAST, frame.getContentPane());
+		frame.getContentPane().add(panel_1);
+		SpringLayout sl_panel_1 = new SpringLayout();
+		panel_1.setLayout(sl_panel_1);
 		
-		// Create Visa Button with Listener
-		btnCreateVisaRequest = new JButton("Create Visa Request");
-		btnCreateVisaRequest.addActionListener(new CreateVisaRequestListener());
-		btnCreateVisaRequest.setBounds(50, 50, 100, 20);
+		JButton button = new JButton("Create Visa Application");
+		sl_panel_1.putConstraint(SpringLayout.NORTH, button, 10, SpringLayout.NORTH, panel_1);
+		sl_panel_1.putConstraint(SpringLayout.WEST, button, 20, SpringLayout.WEST, panel_1);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		panel_1.add(button);
 		
-		// Create Check Visa Button Status with Listener
-		btnCheckVisaStatus = new JButton("Check Visa Status");
-		btnCheckVisaStatus.setBounds(50, 100, 100, 20);
-		btnCheckVisaStatus.addActionListener(new CheckVisaStatusListener());
-
-		panel.add(btnCreateVisaRequest);
-		panel.add(btnCheckVisaStatus);
+		JButton btnCheckVisaStatus = new JButton("Check Visa Status");
+		sl_panel_1.putConstraint(SpringLayout.NORTH, btnCheckVisaStatus, 6, SpringLayout.SOUTH, button);
+		sl_panel_1.putConstraint(SpringLayout.WEST, btnCheckVisaStatus, 0, SpringLayout.WEST, button);
+		sl_panel_1.putConstraint(SpringLayout.EAST, btnCheckVisaStatus, 0, SpringLayout.EAST, button);
+		panel_1.add(btnCheckVisaStatus);
 		
+		JPanel panel_2 = new JPanel();
+		springLayout.putConstraint(SpringLayout.SOUTH, panel_1, -83, SpringLayout.NORTH, panel_2);
+		springLayout.putConstraint(SpringLayout.NORTH, panel_2, -58, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, panel_2, -152, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, panel_2, -10, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, panel_2, -10, SpringLayout.EAST, frame.getContentPane());
+		frame.getContentPane().add(panel_2);
+		SpringLayout sl_panel_2 = new SpringLayout();
+		panel_2.setLayout(sl_panel_2);
 		
-		frame.setSize(350, 200);
+		JButton btnBack = new JButton("Back");
+		sl_panel_2.putConstraint(SpringLayout.WEST, btnBack, 39, SpringLayout.WEST, panel_2);
+		sl_panel_2.putConstraint(SpringLayout.SOUTH, btnBack, -10, SpringLayout.SOUTH, panel_2);
+		panel_2.add(btnBack);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
 
 	}
-
-	public class CreateVisaRequestListener implements ActionListener {
-		public void actionPerformed(ActionEvent event) {
-		}
-	}
-
-	public class CheckVisaStatusListener implements ActionListener {
-		public void actionPerformed(ActionEvent event) {
-		}
-	}
-
 }

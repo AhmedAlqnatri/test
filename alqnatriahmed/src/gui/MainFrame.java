@@ -74,11 +74,9 @@ public class MainFrame {
 
 	public class LoginListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			System.out.println(Data.newusers);
-			// System.out.println(Data.newusers);
 			if (login(txtUsername.getText(), txtPassword.getText())) {
-				new UserInterface().initComponents();
-				frame.setVisible(false);
+				new UserInterface();
+				//frame.setVisible(false);
 			} else {
 				JOptionPane.showMessageDialog(null, "Invalid Cred");
 

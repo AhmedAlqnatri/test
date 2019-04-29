@@ -255,7 +255,7 @@ public class SendRequest extends javax.swing.JFrame {
 				vr.setApplyDate(dateFormat.format(date));
 				Data.visarequests.add(vr);
 				frame.setVisible(false);
-				new UserInterface().initComponents();
+				new UserInterface();
 			}
 		});
 
