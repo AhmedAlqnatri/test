@@ -26,7 +26,7 @@ public class VisaTypes {
 			sSoleInstance = new VisaTypes();
 			return sSoleInstance;
 		} else {
-			throw new RuntimeException("You can't open two visa applications ALERT!!");
+			throw new RuntimeException("You can't open two visa applications ALERT !!");
 		}
 
 	}
