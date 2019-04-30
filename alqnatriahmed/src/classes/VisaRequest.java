@@ -1,5 +1,6 @@
 package classes;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class VisaRequest {
@@ -10,6 +11,8 @@ public class VisaRequest {
 	private String ToCountry = null;
 	private String ApplyDate = null;
 	private String Status = "False";
+	private ArrayList<String> VisaFiles = new ArrayList<String>();
+	
 	public long getVisaId() {
 		return VisaId;
 	}
@@ -46,6 +49,14 @@ public class VisaRequest {
 	}
 	public void setStatus(String status) {
 		Status = status;
+	}
+
+	public ArrayList<String> getVisaFiles() {
+		return VisaFiles;
+	}
+
+	public void setVisaFiles(ArrayList<String> visaFiles) {
+		VisaFiles = visaFiles;
 	}
 	
 	

@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.SpringLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -25,15 +27,21 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.Spliterator;
 import java.awt.event.ActionEvent;
 
 public class JopVisa {
 	private JFrame frame;
-	JLabel label,lblNewLabel;
+	JLabel label, lblNewLabel, lblNewLabel_1, lblNewLabel_2;
 	private int progress;
 	public BufferedImage bImage = null;
 	public Image scaledImage = null;
+	private Map<String, String> visafilesPaths = new HashMap<String, String>();
 
 	/**
 	 * Launch the application.
@@ -73,12 +81,15 @@ public class JopVisa {
 	}
 
 	// -- Upload image to the user folder
-	private void uploadPicture(File file, String imageSection, String username) {
+	private void uploadPicture(String filepath, String imageType, String username) {
 		try {
+			File file = new File(filepath);
 			bImage = ImageIO.read(file);
 			String extention = file.getName().substring(file.getName().lastIndexOf(".") + 1);
-			ImageIO.write(bImage, extention, new File(System.getProperty("user.dir") + "\\" + username + "\\"
-					+ imageSection + "_" + username + "." + extention));
+			String path = System.getProperty("user.dir") + "\\" + username + "\\" + imageType + "_" + username + "."
+					+ extention;
+			ImageIO.write(bImage, extention, new File(path));
+
 		} catch (IOException e) {
 			// throw exception when we coudn't create upload the image
 			throw new RuntimeException("Unexpected Error");
@@ -95,9 +106,6 @@ public class JopVisa {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		SpringLayout springLayout = new SpringLayout();
 		frame.getContentPane().setLayout(springLayout);
-
-		createApplicationFolder("abdo");
-
 		JPanel panel = new JPanel();
 		springLayout.putConstraint(SpringLayout.SOUTH, panel, 229, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, panel, -37, SpringLayout.EAST, frame.getContentPane());
@@ -142,8 +150,10 @@ public class JopVisa {
 				int option = fileChooser.showOpenDialog(frame);
 				if (option == JFileChooser.APPROVE_OPTION) {
 					File file = fileChooser.getSelectedFile();
-					// upload PassportImage
-					uploadPicture(file, "PassportImage", "abdo");
+					// prepare PassportImage
+					// System.out.println(file.getAbsolutePath());
+					visafilesPaths.put("PassportImage", file.getAbsolutePath());
+					// imageTypes.add("");
 					// Set profilePicture on panel;
 					if (lblNewLabel.getText() == "") {
 						progress += 25;
@@ -168,12 +178,19 @@ public class JopVisa {
 				int option = fileChooser.showOpenDialog(frame);
 				if (option == JFileChooser.APPROVE_OPTION) {
 					File file = fileChooser.getSelectedFile();
-					// upload profilePicture
-					uploadPicture(file, "PP", "abdo");
-
+					// prepare ProfileImage
+					visafilesPaths.put("ProfilePicture", file.getAbsolutePath());
 					// Set profilePicture on panel;
 					if (scaledImage != null)
-						lblNewLabel_3.setIcon(new ImageIcon(scaledImage));
+						try {
+							bImage = ImageIO.read(file);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					scaledImage = bImage.getScaledInstance(panel.getWidth() - 10, panel.getHeight() - 10,
+							Image.SCALE_SMOOTH);
+					label.setIcon(new ImageIcon(scaledImage));
 					if (label.getText() == "") {
 						progress += 25;
 						label.setText(file.getName());
@@ -194,12 +211,62 @@ public class JopVisa {
 		panel_1.add(btnProfilePicture);
 
 		JButton btnImageJobContract = new JButton("Upload Job Contract");
+		btnImageJobContract.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.addChoosableFileFilter(new gui.ImageFilter());
+				fileChooser.setAcceptAllFileFilterUsed(false);
+				int option = fileChooser.showOpenDialog(frame);
+				if (option == JFileChooser.APPROVE_OPTION) {
+					File file = fileChooser.getSelectedFile();
+					// prepare Job Contract
+					visafilesPaths.put("JobContract", file.getAbsolutePath());
+//					imageTypes.add("JobContract");
+					if (lblNewLabel_1.getText() == "") {
+						progress += 25;
+						lblNewLabel_1.setText(file.getName());
+					} else {
+						lblNewLabel_1.setText(file.getName());
+					}
+				} else {
+					lblNewLabel_1.setText("");
+				}
+				progressBar.setValue(progress);
+
+			}
+		});
 		sl_panel_1.putConstraint(SpringLayout.SOUTH, btnImagePassport, -39, SpringLayout.NORTH, btnImageJobContract);
 		sl_panel_1.putConstraint(SpringLayout.WEST, btnImageJobContract, 0, SpringLayout.WEST, btnImagePassport);
 		sl_panel_1.putConstraint(SpringLayout.EAST, btnImageJobContract, 0, SpringLayout.EAST, btnImagePassport);
 		panel_1.add(btnImageJobContract);
 
 		JButton btnImageAccomdation = new JButton("Upload Accomdation Conrtact");
+		btnImageAccomdation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.addChoosableFileFilter(new gui.ImageFilter());
+				fileChooser.setAcceptAllFileFilterUsed(false);
+				int option = fileChooser.showOpenDialog(frame);
+				if (option == JFileChooser.APPROVE_OPTION) {
+					File file = fileChooser.getSelectedFile();
+					// prepare AccomdationContract
+					visafilesPaths.put("AccomdationContract", file.getAbsolutePath());
+//					imageTypes.add("AccomdationContract");
+					if (lblNewLabel_2.getText() == "") {
+						progress += 25;
+						lblNewLabel_2.setText(file.getName());
+					} else {
+						lblNewLabel_2.setText(file.getName());
+					}
+				} else {
+					lblNewLabel_2.setText("");
+				}
+				progressBar.setValue(progress);
+
+			}
+		});
 		sl_panel_1.putConstraint(SpringLayout.SOUTH, btnImageAccomdation, -42, SpringLayout.NORTH, progressBar);
 		sl_panel_1.putConstraint(SpringLayout.SOUTH, btnImageJobContract, -33, SpringLayout.NORTH, btnImageAccomdation);
 		sl_panel_1.putConstraint(SpringLayout.WEST, btnImageAccomdation, 20, SpringLayout.WEST, panel_1);
@@ -218,43 +285,66 @@ public class JopVisa {
 		sl_panel_1.putConstraint(SpringLayout.EAST, lblNewLabel, -3, SpringLayout.EAST, btnImagePassport);
 		panel_1.add(lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1 = new JLabel("");
 		sl_panel_1.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 6, SpringLayout.SOUTH, btnImageJobContract);
 		sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_1, 0, SpringLayout.WEST, btnImagePassport);
 		sl_panel_1.putConstraint(SpringLayout.EAST, lblNewLabel_1, -3, SpringLayout.EAST, btnImagePassport);
 		panel_1.add(lblNewLabel_1);
 
-		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2 = new JLabel("");
 		sl_panel_1.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 6, SpringLayout.SOUTH, btnImageAccomdation);
 		sl_panel_1.putConstraint(SpringLayout.WEST, lblNewLabel_2, 0, SpringLayout.WEST, btnImagePassport);
 		sl_panel_1.putConstraint(SpringLayout.EAST, lblNewLabel_2, -3, SpringLayout.EAST, btnImagePassport);
 		panel_1.add(lblNewLabel_2);
 
 		JPanel panel_2 = new JPanel();
-		springLayout.putConstraint(SpringLayout.NORTH, panel_2, 25, SpringLayout.SOUTH, panel);
-		springLayout.putConstraint(SpringLayout.WEST, panel_2, 0, SpringLayout.WEST, panel);
-		springLayout.putConstraint(SpringLayout.SOUTH, panel_2, 0, SpringLayout.SOUTH, panel_1);
-		springLayout.putConstraint(SpringLayout.EAST, panel_2, -37, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, panel_2, 28, SpringLayout.SOUTH, panel);
+		springLayout.putConstraint(SpringLayout.WEST, panel_2, -6, SpringLayout.WEST, panel);
+		springLayout.putConstraint(SpringLayout.SOUTH, panel_2, 3, SpringLayout.SOUTH, panel_1);
+
+		JButton btnReset = new JButton("reset");
+		sl_panel_1.putConstraint(SpringLayout.NORTH, btnReset, 0, SpringLayout.NORTH, progressBar);
+		sl_panel_1.putConstraint(SpringLayout.WEST, btnReset, 0, SpringLayout.WEST, btnImagePassport);
+		panel_1.add(btnReset);
+		springLayout.putConstraint(SpringLayout.EAST, panel_2, -27, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(panel_2);
 		SpringLayout sl_panel_2 = new SpringLayout();
 		panel_2.setLayout(sl_panel_2);
 
 		JButton btnSaveApplication = new JButton("Send Application");
-		sl_panel_2.putConstraint(SpringLayout.WEST, btnSaveApplication, 19, SpringLayout.WEST, panel_2);
-		sl_panel_2.putConstraint(SpringLayout.EAST, btnSaveApplication, 163, SpringLayout.WEST, panel_2);
+		btnSaveApplication.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (label.getText().equalsIgnoreCase("") || lblNewLabel.getText().equalsIgnoreCase("")
+						|| lblNewLabel_1.getText().equalsIgnoreCase("")
+						|| lblNewLabel_2.getText().equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "Complete Please !!");
+				} else {
+					createApplicationFolder("ahmed");
+
+					for (Map.Entry<String, String> entry : visafilesPaths.entrySet()) {
+						uploadPicture((String) entry.getValue(), (String) entry.getKey(), "ahmed");
+
+					}
+
+				}
+			}
+		});
+		sl_panel_2.putConstraint(SpringLayout.WEST, btnSaveApplication, 21, SpringLayout.WEST, panel_2);
+		sl_panel_2.putConstraint(SpringLayout.EAST, btnSaveApplication, -19, SpringLayout.EAST, panel_2);
 		panel_2.add(btnSaveApplication);
 
 		JButton btnCheckUserInformation = new JButton("Check User Information");
-		sl_panel_2.putConstraint(SpringLayout.NORTH, btnCheckUserInformation, 44, SpringLayout.NORTH, panel_2);
 		sl_panel_2.putConstraint(SpringLayout.SOUTH, btnSaveApplication, -8, SpringLayout.NORTH,
 				btnCheckUserInformation);
+		sl_panel_2.putConstraint(SpringLayout.WEST, btnCheckUserInformation, -178, SpringLayout.EAST, panel_2);
+		sl_panel_2.putConstraint(SpringLayout.NORTH, btnCheckUserInformation, 44, SpringLayout.NORTH, panel_2);
 		sl_panel_2.putConstraint(SpringLayout.EAST, btnCheckUserInformation, -19, SpringLayout.EAST, panel_2);
 		panel_2.add(btnCheckUserInformation);
 
 		JButton btnBack = new JButton("Back");
-		sl_panel_2.putConstraint(SpringLayout.NORTH, btnBack, 6, SpringLayout.SOUTH, btnCheckUserInformation);
-		sl_panel_2.putConstraint(SpringLayout.WEST, btnBack, 21, SpringLayout.WEST, panel_2);
-		sl_panel_2.putConstraint(SpringLayout.EAST, btnBack, 165, SpringLayout.WEST, panel_2);
+		sl_panel_2.putConstraint(SpringLayout.NORTH, btnBack, 7, SpringLayout.SOUTH, btnCheckUserInformation);
+		sl_panel_2.putConstraint(SpringLayout.WEST, btnBack, 23, SpringLayout.WEST, panel_2);
+		sl_panel_2.putConstraint(SpringLayout.EAST, btnBack, -19, SpringLayout.EAST, panel_2);
 		panel_2.add(btnBack);
 	}
 }
