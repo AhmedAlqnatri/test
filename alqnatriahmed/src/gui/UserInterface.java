@@ -13,26 +13,11 @@ import java.io.File;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class UserInterface {
 
 	private JFrame frame;
-
-//	/**
-//	 * Launch the application.
-//	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					UserInterface window = new UserInterface();
-//					window.frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 
 	/**
 	 * Create the application.
@@ -64,6 +49,13 @@ public class UserInterface {
 		sl_panel_1.putConstraint(SpringLayout.EAST, button, -34, SpringLayout.EAST, panel_1);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					VisaTypes.getInstance();
+				} catch (RuntimeException doubleTabs) {
+					// TODO: handle exception
+					JOptionPane.showMessageDialog(null, doubleTabs.getMessage());
+				}
+				
 			}
 		});
 		panel_1.add(button);

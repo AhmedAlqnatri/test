@@ -16,7 +16,7 @@ public class MainFrame {
 	JTextField txtUsername = null;
 	JTextField txtPassword = null;
 	JFrame frame = null;
-	JPanel panel, panel2 , panelTitle;
+	JPanel panel, panel2, panelTitle;
 	JLabel lblUsername;
 	JLabel lblPassword;
 	JLabel lbltitle;
@@ -29,14 +29,13 @@ public class MainFrame {
 		frame.setTitle("E-visa LogIn");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
-		
+
 		panelTitle = new JPanel();
 		frame.getContentPane().add(BorderLayout.NORTH, panelTitle);
 		lbltitle = new JLabel("Welcome To E-Visa App");
-		panelTitle.setPreferredSize(new Dimension(50,50));
+		panelTitle.setPreferredSize(new Dimension(50, 50));
 		panelTitle.add(lbltitle);
-		
-		
+
 		panel = new JPanel();
 		frame.getContentPane().add(BorderLayout.CENTER, panel);
 		panel2 = new JPanel();
@@ -61,7 +60,7 @@ public class MainFrame {
 		frame.setSize(350, 200);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
-		
+
 		try {
 			Image image = ImageIO.read(new File("./fiit_logo.png"));
 			frame.setIconImage(image);
@@ -72,7 +71,6 @@ public class MainFrame {
 		}
 
 	}
-	
 
 	public static boolean login(String username, String password) {
 		for (classes.User newUser : Data.newusers) {
@@ -88,10 +86,10 @@ public class MainFrame {
 		public void actionPerformed(ActionEvent event) {
 			if (login(txtUsername.getText(), txtPassword.getText())) {
 				new UserInterface();
-				//frame.setVisible(false);
 			} else {
-				JOptionPane.showMessageDialog(null, "Invalid Cred");
-
+				txtUsername.setText(null);
+				txtPassword.setText(null);
+				JOptionPane.showMessageDialog(null, "Invalid Login Details", "Login Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
