@@ -13,6 +13,7 @@ public class VisaRequest {
 	private String ToCountry = null;
 	private String ApplyDate = null;
 	private boolean Status = false;
+	private String Description = null;
 	private Map<String, String> VisaFiles = new HashMap<String, String>();
 
 	public long getVisaId() {
@@ -71,6 +72,12 @@ public class VisaRequest {
 		VisaFiles = visaFiles;
 	}
 
+	public String getDescription() {
+		return Description;
+	}
 
+	public void setDescription(String description) {
+		Description = description;
+	}
 
 }

@@ -63,9 +63,10 @@ public class JobVisa {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setTitle("Job Visa Application");
 		frame.setVisible(true);
 		frame.setBounds(100, 100, 600, 600);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		SpringLayout springLayout = new SpringLayout();
 		frame.getContentPane().setLayout(springLayout);
 		JPanel panel = new JPanel();
@@ -357,7 +358,7 @@ public class JobVisa {
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				frame.dispose();
 
 			}
 		});

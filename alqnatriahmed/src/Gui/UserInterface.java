@@ -36,7 +36,7 @@ public class UserInterface {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		SpringLayout springLayout = new SpringLayout();
 		frame.getContentPane().setLayout(springLayout);
 
@@ -78,11 +78,10 @@ public class UserInterface {
 					else
 						JOptionPane.showMessageDialog(null, "The Id enterd is incorrect ,try once more");
 
-				}
-				catch(NumberFormatException exception) {
+				} catch (NumberFormatException exception) {
 					JOptionPane.showMessageDialog(null, "Invaild Input, Id must be numerical");
 				}
-				
+
 			}
 		});
 		sl_panel_1.putConstraint(SpringLayout.NORTH, btnCheckVisaStatus, 16, SpringLayout.SOUTH, button);
@@ -106,7 +105,13 @@ public class UserInterface {
 		SpringLayout sl_panel_2 = new SpringLayout();
 		panel_2.setLayout(sl_panel_2);
 
-		JButton btnBack = new JButton("Back");
+		JButton btnBack = new JButton("LogOut");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				Gui.MainFrame.gui.frame.setVisible(true);
+			}
+		});
 		sl_panel_2.putConstraint(SpringLayout.WEST, btnBack, 39, SpringLayout.WEST, panel_2);
 		sl_panel_2.putConstraint(SpringLayout.SOUTH, btnBack, -10, SpringLayout.SOUTH, panel_2);
 		panel_2.add(btnBack);
