@@ -26,14 +26,14 @@ public class UserInterface {
 	/**
 	 * Create the application.
 	 */
-	public UserInterface() {
-		initialize();
+	public UserInterface(String username) {
+		initialize(username);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(String username) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -54,7 +54,7 @@ public class UserInterface {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					VisaTypes.getInstance();
+					VisaTypes.getInstance(username);
 				} catch (RuntimeException doubleTabs) {
 					// TODO: handle exception
 					JOptionPane.showMessageDialog(null, doubleTabs.getMessage());
@@ -73,8 +73,8 @@ public class UserInterface {
 						if (CheckVisaStatus(Id))
 							JOptionPane.showMessageDialog(null, "Congratulations You Got the Visa");
 						else
-							JOptionPane.showMessageDialog(null,
-									"Your visa application is refused, contact for more details");
+							JOptionPane.showMessageDialog(null, "Your visa application is refused because of :"
+									+ getVisaRequestByUserName(username).getDescription());
 					else
 						JOptionPane.showMessageDialog(null, "The Id enterd is incorrect ,try once more");
 
@@ -144,6 +144,15 @@ public class UserInterface {
 				return true;
 		}
 		return false;
+	}
+
+	public VisaRequest getVisaRequestByUserName(String username) {
+		for (VisaRequest vr : Data.visarequests) {
+			if (vr.getUserName().equalsIgnoreCase(username))
+
+				return vr;
+		}
+		return null;
 	}
 
 }

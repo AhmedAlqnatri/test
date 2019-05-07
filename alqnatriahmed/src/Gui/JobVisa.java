@@ -54,14 +54,14 @@ public class JobVisa {
 	/**
 	 * Create the application.
 	 */
-	public JobVisa() {
-		initialize();
+	public JobVisa(String username) {
+		initialize(username);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(String username) {
 		frame = new JFrame();
 		frame.setTitle("Job Visa Application");
 		frame.setVisible(true);
@@ -330,16 +330,16 @@ public class JobVisa {
 						|| lblNewLabel_2.getText().equalsIgnoreCase("")) {
 					JOptionPane.showMessageDialog(null, "Complete Please !!");
 				} else {
-					createApplicationFolder("ahmed");
+					createApplicationFolder(username);
 					for (Map.Entry<String, String> entry : visafilesPaths.entrySet()) {
-						uploadPicture((String) entry.getValue(), (String) entry.getKey(), "ahmed");
+						uploadPicture((String) entry.getValue(), (String) entry.getKey(), username);
 					}
 
 					DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 					Date date = new Date();
 					VisaRequest visarequest = new VisaRequest();
 					visarequest.setVisaId(Data.visarequests.size());
-					visarequest.setUserName("ahmed");
+					visarequest.setUserName(username);
 					visarequest.setToCountry(comboBox.getSelectedItem().toString());
 					visarequest.setApplyDate(dateFormat.format(date));
 					visarequest.setVisaFiles(visafiles);

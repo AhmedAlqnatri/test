@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Data {
 
-	public Admin admin = null;
+	public Person admin = null;
 	public UserName adminfullname = null;
 	public static ArrayList<User> newusers = new ArrayList<User>();
 	public static ArrayList<VisaRequest> visarequests = new ArrayList<VisaRequest>();
@@ -26,14 +26,14 @@ public class Data {
 		nu.setDateOfIssue("12/12/2018");
 		nu.setValidTo("12/12/2020");
 		newusers.add(nu);
-//		
-//		VisaRequest vr = new VisaRequest();
-//		vr.setFullName(adminfullname);
-//		vr.setUserName("ahmed");
-//		vr.setStatus("Waiting");
-//		vr.setToCountry("Syria");
-//		vr.setApplyDate("12/12/2018");
-//		visarequests.add(vr);
+		
+		VisaRequest vr = new VisaRequest();
+		vr.setFullName(adminfullname);
+		vr.setUserName("ahmed");
+		vr.setStatus(false);
+		vr.setToCountry("Syria");
+		vr.setApplyDate("12/12/2018");
+		visarequests.add(vr);
 	}
 
 }

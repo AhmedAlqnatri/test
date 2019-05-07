@@ -13,7 +13,7 @@ public class VisaRequest {
 	private String ToCountry = null;
 	private String ApplyDate = null;
 	private boolean Status = false;
-	private String Description = null;
+	private String Description = "Waitting";
 	private Map<String, String> VisaFiles = new HashMap<String, String>();
 
 	public long getVisaId() {

@@ -21,9 +21,9 @@ public class VisaTypes {
 
 	private static volatile VisaTypes sSoleInstance;
 
-	public synchronized static VisaTypes getInstance() {
+	public synchronized static VisaTypes getInstance(String username) {
 		if (sSoleInstance == null) { // if there is no instance available... create new one
-			sSoleInstance = new VisaTypes();
+			sSoleInstance = new VisaTypes(username);
 			return sSoleInstance;
 		} else {
 			throw new RuntimeException("You can't open two visa applications ALERT !!");
@@ -34,8 +34,8 @@ public class VisaTypes {
 	/**
 	 * Create the application.
 	 */
-	private VisaTypes() {
-		initialize();
+	private VisaTypes(String username) {
+		initialize(username);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class VisaTypes {
 
 	}
 
-	private void initialize() {
+	private void initialize(String username) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		SpringLayout springLayout = new SpringLayout();
@@ -85,7 +85,7 @@ public class VisaTypes {
 		// job visa listener
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new JobVisa();
+				new JobVisa(username);
 			}
 		});
 		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton, 23, SpringLayout.NORTH, panel);

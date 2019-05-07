@@ -104,13 +104,19 @@ public class MainFrame {
 	 */
 	public class LoginListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			if (login(txtUsername.getText(), txtPassword.getText())) {
-				new UserInterface();
-				gui.frame.setVisible(false);	
+			if (txtUsername.getText().equalsIgnoreCase("admin")) {
+				if (txtPassword.getText().equalsIgnoreCase("admin"))
+					new AdminPanel();
 			} else {
-				txtUsername.setText(null);
-				txtPassword.setText(null);
-				JOptionPane.showMessageDialog(null, "Invalid Login Details", "Login Error", JOptionPane.ERROR_MESSAGE);
+				if (login(txtUsername.getText(), txtPassword.getText())) {
+					new UserInterface(txtUsername.getText());
+					gui.frame.setVisible(false);
+				} else {
+					txtUsername.setText(null);
+					txtPassword.setText(null);
+					JOptionPane.showMessageDialog(null, "Invalid Login Details", "Login Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		}
 	}
