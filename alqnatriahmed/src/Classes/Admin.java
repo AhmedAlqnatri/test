@@ -1,4 +1,4 @@
-package classes;
+package Classes;
 
 public class Admin extends Person {
 

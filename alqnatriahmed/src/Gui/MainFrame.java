@@ -1,9 +1,9 @@
-package gui;
+package Gui;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import classes.Data;
+import Classes.Data;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -22,9 +22,17 @@ public class MainFrame {
 	JLabel lbltitle;
 	JButton btnLogin;
 	JButton btnRegisterNewUser;
+	static MainFrame gui;
 
+	/**
+	 * this function initializes the components of the frame
+	 * 
+	 */
 	public void initcomponents() {
+		// Data is the initial data we have when we start the application
+		// (DatabaseLater)
 		Data data = new Data();
+
 		frame = new JFrame();
 		frame.setTitle("E-visa LogIn");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,20 +68,26 @@ public class MainFrame {
 		frame.setSize(350, 200);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
-
+		// set application icon
 		try {
 			Image image = ImageIO.read(new File("./fiit_logo.png"));
 			frame.setIconImage(image);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-
 		}
 
 	}
 
+	/**
+	 * this function check the entered user information (username , password) if it
+	 * is correct or not.
+	 * 
+	 * @param username the unique username
+	 * @param password the password of useraccount
+	 * @return boolean value
+	 */
 	public static boolean login(String username, String password) {
-		for (classes.User newUser : Data.newusers) {
+		for (Classes.User newUser : Data.newusers) {
 			if (username.equalsIgnoreCase(newUser.getUserName())) {
 				if (password.equalsIgnoreCase(newUser.getPassword()))
 					return true;
@@ -82,10 +96,17 @@ public class MainFrame {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @author ahmed this is nested class which creates listener for Login Button it
+	 *         has actionPerformed method which is responsible of invoking Login
+	 *         method
+	 */
 	public class LoginListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			if (login(txtUsername.getText(), txtPassword.getText())) {
 				new UserInterface();
+				gui.frame.setVisible(false);	
 			} else {
 				txtUsername.setText(null);
 				txtPassword.setText(null);
@@ -94,14 +115,20 @@ public class MainFrame {
 		}
 	}
 
+	/**
+	 * 
+	 * @author ahmed this is nested class which creates listener for newUser Button
+	 *         it has actionPerformed method which is responsible of initiates
+	 *         RegisterNewUser Gui
+	 */
 	public class NewUserlListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			new NewUser().initComponents();
+			new RegisterNewUser().initComponents();
 		}
 	}
 
 	public static void main(String[] args) {
-		MainFrame gui = new MainFrame();
+		gui = new MainFrame();
 		gui.initcomponents();
 	}
 

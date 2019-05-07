@@ -1,7 +1,9 @@
-package classes;
+package Classes;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VisaRequest {
 
@@ -10,54 +12,65 @@ public class VisaRequest {
 	private UserName FullName = null;
 	private String ToCountry = null;
 	private String ApplyDate = null;
-	private String Status = "False";
-	private ArrayList<String> VisaFiles = new ArrayList<String>();
-	
+	private boolean Status = false;
+	private Map<String, String> VisaFiles = new HashMap<String, String>();
+
 	public long getVisaId() {
 		return VisaId;
 	}
-	
+
 	public void setVisaId(long visaId) {
 		VisaId = visaId;
 	}
+
 	public String getUserName() {
 		return UserName;
 	}
+
 	public void setUserName(String userName) {
 		UserName = userName;
 	}
+
 	public UserName getFullName() {
 		return FullName;
 	}
+
 	public void setFullName(UserName fullName) {
 		FullName = fullName;
 	}
+
 	public String getToCountry() {
 		return ToCountry;
 	}
+
 	public void setToCountry(String toCountry) {
 		ToCountry = toCountry;
 	}
+
 	public String getApplyDate() {
 		return ApplyDate;
 	}
+
 	public void setApplyDate(String applyDate) {
 		ApplyDate = applyDate;
 	}
-	public String getStatus() {
+
+	public boolean getStatus() {
 		return Status;
 	}
-	public void setStatus(String status) {
+
+	public void setStatus(boolean status) {
 		Status = status;
 	}
 
-	public ArrayList<String> getVisaFiles() {
+	public Map<String, String> getVisaFiles() {
 		return VisaFiles;
 	}
 
-	public void setVisaFiles(ArrayList<String> visaFiles) {
+	public void setVisaFiles(Map<String, String> visaFiles) {
 		VisaFiles = visaFiles;
 	}
-	
-	
+
+
+
 }

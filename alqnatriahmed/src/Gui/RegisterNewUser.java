@@ -1,4 +1,4 @@
-package gui;
+package Gui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,18 +9,15 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.swing.*;
-
-import classes.Data;
-import classes.User;
-import classes.UserName;
-import classes.Validation;
-import gui.MainFrame.NewUserlListener;
-
+import Classes.Data;
+import Classes.User;
+import Classes.UserName;
+import Gui.MainFrame.NewUserlListener;
+import interfaces.Validation;
 import javax.imageio.ImageIO;
 
-public class NewUser extends javax.swing.JFrame {
+public class RegisterNewUser extends javax.swing.JFrame implements Validation {
 
 	private JTextField txtFname, txtLname, txtUsername1;
 	private JPasswordField txtPassword;
@@ -31,7 +28,7 @@ public class NewUser extends javax.swing.JFrame {
 	JFrame frame;
 	JComboBox<String> gender;
 	JComboBox<String> country;
-	//Data data = new Data();
+	// Data data = new Data();
 
 	private String[] genders = new String[] { "Male", "Female" };
 	// private JComboBox gender;
@@ -200,7 +197,7 @@ public class NewUser extends javax.swing.JFrame {
 		btnSave.addActionListener(new NewUserRegListener());
 
 		frame.setVisible(true);
-		
+
 		try {
 			Image image = ImageIO.read(new File("./fiit_logo.png"));
 			frame.setIconImage(image);
@@ -217,25 +214,25 @@ public class NewUser extends javax.swing.JFrame {
 
 			ArrayList<String> str = new ArrayList<String>();
 
-			classes.UserName fullname = new classes.UserName();
+			UserName fullname = new UserName();
 			fullname.setFirstName(txtFname.getText());
 			fullname.setLastName(txtLname.getText());
 
 			User newuser = new User();
 
-			if (Validation.checkUniqeUserName(txtUsername1.getText(), Data.newusers))
+			if (checkUniqeUserName(txtUsername1.getText(), Data.newusers))
 				newuser.setUserName(txtUsername1.getText());
 			else
 				str.add("UserName Must be unique");
 
 			newuser.setAddress(txtAddress.getText());
 
-			if (Validation.isValidDate(txtDateOfIssue.getText()))
+			if (isValidDate(txtDateOfIssue.getText()))
 				newuser.setDateOfIssue(txtDateOfIssue.getText());
 			else
 				str.add("check Date of Issue Format(/dd/mm/yyyy)");
 
-			if (Validation.isValidDate(txtDateOfexpired.getText()))
+			if (isValidDate(txtDateOfexpired.getText()))
 				newuser.setValidTo(txtDateOfexpired.getText());
 			else
 				str.add("check Date of expired Format(/dd/mm/yyyy)");
@@ -243,7 +240,7 @@ public class NewUser extends javax.swing.JFrame {
 			newuser.setGender(gender.getSelectedItem().toString());
 			newuser.setFullName(fullname);
 
-			if (Validation.isValidEmail(txtEmail.getText()))
+			if (isValidEmail(txtEmail.getText()))
 				newuser.setEmail(txtEmail.getText());
 			else
 				str.add("email must be like (example@example.com)");
@@ -251,7 +248,7 @@ public class NewUser extends javax.swing.JFrame {
 			newuser.setPassportNo(txtPassport.getText());
 			newuser.setCountry(country.getSelectedItem().toString());
 
-			if (Validation.checkPassword(txtPassword.getText(), txtConfirmPassword.getText()))
+			if (checkPassword(txtPassword.getText(), txtConfirmPassword.getText()))
 				newuser.setPassword(txtPassword.getText());
 			else
 				str.add("Password & Confirmation Password must be same");
@@ -271,6 +268,38 @@ public class NewUser extends javax.swing.JFrame {
 			}
 
 		}
+
+	}
+
+	@Override
+	public boolean isValidDate(String date) {
+		String regex = "^(1[0-2]|0[1-9])/(3[01]" + "|[12][0-9]|0[1-9])/[0-9]{4}$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher((CharSequence) date);
+		return matcher.matches();
+	}
+
+	@Override
+	public boolean isValidEmail(String email) {
+		Pattern regex = Pattern.compile("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b");
+		Matcher matcher = regex.matcher((CharSequence) email);
+		return matcher.matches();
+	}
+
+	@Override
+	public boolean checkUniqeUserName(String usernaem, ArrayList<User> users) {
+		for (User newUser : users) {
+			if (usernaem.equalsIgnoreCase(newUser.getUserName()))
+				return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean checkPassword(String password, String Confpass) {
+		if (password.equalsIgnoreCase(Confpass))
+			return true;
+		return false;
 
 	}
 

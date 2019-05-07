@@ -1,4 +1,4 @@
-package gui;
+package Gui;
 
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -85,6 +85,7 @@ public class VisaTypes {
 		// job visa listener
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				new JobVisa();
 			}
 		});
 		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton, 23, SpringLayout.NORTH, panel);

@@ -1,10 +1,14 @@
-package gui;
+package Gui;
 
 import java.awt.EventQueue;
 import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.SpringLayout;
+
+import Classes.Data;
+import Classes.VisaRequest;
+
 import javax.swing.JPanel;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -55,12 +59,32 @@ public class UserInterface {
 					// TODO: handle exception
 					JOptionPane.showMessageDialog(null, doubleTabs.getMessage());
 				}
-				
+
 			}
 		});
 		panel_1.add(button);
 
 		JButton btnCheckVisaStatus = new JButton("Check Visa Status");
+		btnCheckVisaStatus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int Id = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter ID of the application"));
+					if (CheckExistenceVisaId(Id))
+						if (CheckVisaStatus(Id))
+							JOptionPane.showMessageDialog(null, "Congratulations You Got the Visa");
+						else
+							JOptionPane.showMessageDialog(null,
+									"Your visa application is refused, contact for more details");
+					else
+						JOptionPane.showMessageDialog(null, "The Id enterd is incorrect ,try once more");
+
+				}
+				catch(NumberFormatException exception) {
+					JOptionPane.showMessageDialog(null, "Invaild Input, Id must be numerical");
+				}
+				
+			}
+		});
 		sl_panel_1.putConstraint(SpringLayout.NORTH, btnCheckVisaStatus, 16, SpringLayout.SOUTH, button);
 		sl_panel_1.putConstraint(SpringLayout.WEST, btnCheckVisaStatus, 0, SpringLayout.WEST, button);
 		sl_panel_1.putConstraint(SpringLayout.EAST, btnCheckVisaStatus, 0, SpringLayout.EAST, button);
@@ -68,7 +92,7 @@ public class UserInterface {
 
 		JPanel panel_2 = new JPanel();
 		springLayout.putConstraint(SpringLayout.SOUTH, panel_1, -29, SpringLayout.NORTH, panel_2);
-		
+
 		JButton btnNewButton = new JButton("Apply a complaint");
 		sl_panel_1.putConstraint(SpringLayout.NORTH, btnNewButton, 18, SpringLayout.SOUTH, btnCheckVisaStatus);
 		sl_panel_1.putConstraint(SpringLayout.WEST, btnNewButton, 0, SpringLayout.WEST, button);
@@ -93,11 +117,28 @@ public class UserInterface {
 		try {
 			Image image = ImageIO.read(new File("./fiit_logo.png"));
 			frame.setIconImage(image);
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 
 		}
 
 	}
+
+	public boolean CheckVisaStatus(int id) {
+		for (VisaRequest visarequest : Data.visarequests) {
+			if (visarequest.getVisaId() == id)
+				if (visarequest.getStatus() == true)
+					return true;
+		}
+		return false;
+	}
+
+	public boolean CheckExistenceVisaId(int id) {
+		for (VisaRequest visarequest : Data.visarequests) {
+			if (visarequest.getVisaId() == id)
+				return true;
+		}
+		return false;
+	}
+
 }

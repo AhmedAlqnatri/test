@@ -1,10 +1,9 @@
-package gui;
-
+package Gui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-public class TourismVisa {
+public class AdminPanel {
 
 	private JFrame frame;
 
@@ -15,7 +14,7 @@ public class TourismVisa {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TourismVisa window = new TourismVisa();
+					AdminPanel window = new AdminPanel();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -27,7 +26,7 @@ public class TourismVisa {
 	/**
 	 * Create the application.
 	 */
-	public TourismVisa() {
+	public AdminPanel() {
 		initialize();
 	}
 
