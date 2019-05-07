@@ -22,7 +22,8 @@ public class VisaTypes {
 	private static volatile VisaTypes sSoleInstance;
 
 	public synchronized static VisaTypes getInstance(String username) {
-		if (sSoleInstance == null) { // if there is no instance available... create new one
+		if (sSoleInstance == null) { 
+			// if there is no instance available... create new one
 			sSoleInstance = new VisaTypes(username);
 			return sSoleInstance;
 		} else {

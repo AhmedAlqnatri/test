@@ -128,7 +128,12 @@ public class UserInterface {
 		}
 
 	}
-
+	
+	/**
+	 * this function check the status of visa request using entered id
+	 * @param id
+	 * @return boolean
+	 */
 	public boolean CheckVisaStatus(int id) {
 		for (VisaRequest visarequest : Data.visarequests) {
 			if (visarequest.getVisaId() == id)
@@ -138,6 +143,13 @@ public class UserInterface {
 		return false;
 	}
 
+
+	/**
+	 * this function check existence of visa request using entered id
+	 * @param id
+	 * @return boolean
+	 */
+	
 	public boolean CheckExistenceVisaId(int id) {
 		for (VisaRequest visarequest : Data.visarequests) {
 			if (visarequest.getVisaId() == id)
@@ -145,7 +157,13 @@ public class UserInterface {
 		}
 		return false;
 	}
-
+	
+	
+/**
+ *  this function get Visa Request by username
+ * @param username
+ * @return VisaRequest object
+ */
 	public VisaRequest getVisaRequestByUserName(String username) {
 		for (VisaRequest vr : Data.visarequests) {
 			if (vr.getUserName().equalsIgnoreCase(username))

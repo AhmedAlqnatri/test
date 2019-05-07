@@ -14,6 +14,7 @@ public class VisaRequest {
 	private String ApplyDate = null;
 	private boolean Status = false;
 	private String Description = "Waitting";
+	//hash map of every visa request <Filetype , username>
 	private Map<String, String> VisaFiles = new HashMap<String, String>();
 
 	public long getVisaId() {
