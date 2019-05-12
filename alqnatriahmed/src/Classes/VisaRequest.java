@@ -10,11 +10,12 @@ public class VisaRequest {
 	private long VisaId = 0;
 	private String UserName = null;
 	private UserName FullName = null;
+	private String VisaType = null;
 	private String ToCountry = null;
 	private String ApplyDate = null;
 	private boolean Status = false;
 	private String Description = "Waitting";
-	//hash map of every visa request <Filetype , username>
+	// hash map of every visa request <Filetype , username>
 	private Map<String, String> VisaFiles = new HashMap<String, String>();
 
 	public long getVisaId() {
@@ -79,6 +80,14 @@ public class VisaRequest {
 
 	public void setDescription(String description) {
 		Description = description;
+	}
+
+	public String getVisaType() {
+		return VisaType;
+	}
+
+	public void setVisaType(String visaType) {
+		VisaType = visaType;
 	}
 
 }

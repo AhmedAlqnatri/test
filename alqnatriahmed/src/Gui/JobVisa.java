@@ -16,7 +16,6 @@ import javax.swing.border.LineBorder;
 
 import Classes.Data;
 import Classes.VisaRequest;
-
 import java.awt.Color;
 import javax.swing.JProgressBar;
 import javax.swing.JFileChooser;
@@ -27,7 +26,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,7 +40,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import AssistanceClasses.*;
 
-public class JobVisa {
+public class JobVisa extends VisaServices {
 	private JFrame frame;
 	JLabel label, lblNewLabel, lblNewLabel_1, lblNewLabel_2, lblNewLabel_3;
 	private int progress;
@@ -135,25 +133,25 @@ public class JobVisa {
 				fileChooser.setAcceptAllFileFilterUsed(false);
 				int option = fileChooser.showOpenDialog(frame);
 				if (option == JFileChooser.APPROVE_OPTION) {
-					File file = fileChooser.getSelectedFile();
-					// prepare ProfileImage
-					visafilesPaths.put("ProfilePicture", file.getAbsolutePath());
 					// Set profilePicture on panel;
 					try {
+						File file = fileChooser.getSelectedFile();
+						visafilesPaths.put("ProfilePicture", file.getAbsolutePath());
+						// prepare ProfileImage
 						bImage = ImageIO.read(file);
+						scaledImage = bImage.getScaledInstance(panel.getWidth() - 10, panel.getHeight() - 10,
+								Image.SCALE_SMOOTH);
+						lblNewLabel_3.setIcon(new ImageIcon(scaledImage));
+						if (label.getText() == "") {
+							progress += 25;
+							label.setText(file.getName());
+						} else {
+							label.setText(file.getName());
+						}
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						JOptionPane.showMessageDialog(null, "UnexpectedError Try Again please");
 					}
-					scaledImage = bImage.getScaledInstance(panel.getWidth() - 10, panel.getHeight() - 10,
-							Image.SCALE_SMOOTH);
-					lblNewLabel_3.setIcon(new ImageIcon(scaledImage));
-					if (label.getText() == "") {
-						progress += 25;
-						label.setText(file.getName());
-					} else {
-						label.setText(file.getName());
-					}
+
 				} else {
 					label.setText("");
 				}
@@ -216,7 +214,6 @@ public class JobVisa {
 					File file = fileChooser.getSelectedFile();
 					// prepare AccomdationContract
 					visafilesPaths.put("AccomdationContract", file.getAbsolutePath());
-//					imageTypes.add("AccomdationContract");
 					if (lblNewLabel_2.getText() == "") {
 						progress += 25;
 						lblNewLabel_2.setText(file.getName());
@@ -325,29 +322,32 @@ public class JobVisa {
 		sl_panel_2.putConstraint(SpringLayout.NORTH, btnSaveApplication, 13, SpringLayout.NORTH, panel_2);
 		btnSaveApplication.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				if (label.getText().equalsIgnoreCase("") || lblNewLabel.getText().equalsIgnoreCase("")
 						|| lblNewLabel_1.getText().equalsIgnoreCase("")
 						|| lblNewLabel_2.getText().equalsIgnoreCase("")) {
 					JOptionPane.showMessageDialog(null, "Complete Please !!");
 				} else {
-					createApplicationFolder(username);
-					for (Map.Entry<String, String> entry : visafilesPaths.entrySet()) {
-						uploadPicture((String) entry.getValue(), (String) entry.getKey(), username);
+					// checking on operation of creating a user visa folder.
+					// in case it's existed we don't do any thing.
+					if (createApplicationFolder(username)) {
+						if (uploadPicture(username, visafilesPaths, visafiles, bImage)) {
+
+							// add visa application for database(VisaRequests array list in our case )
+							SaveVisaApplication(username, comboBox.getSelectedItem().toString(),
+									JobVisa.class.getName(), visafiles);
+
+							JOptionPane.showMessageDialog(null,
+									"Successfully added your request and this is your application id :"
+											+ (Data.visarequests.size() - 1));
+						} else {
+							JOptionPane.showMessageDialog(null, "Unexpected Error Happen Try Later");
+						}
+
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Sorry you have a pneding application, we appreciate your pactient");
 					}
-
-					DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-					Date date = new Date();
-					VisaRequest visarequest = new VisaRequest();
-					visarequest.setVisaId(Data.visarequests.size());
-					visarequest.setUserName(username);
-					visarequest.setToCountry(comboBox.getSelectedItem().toString());
-					visarequest.setApplyDate(dateFormat.format(date));
-					visarequest.setVisaFiles(visafiles);
-					Data.visarequests.add(visarequest);
-					JOptionPane.showMessageDialog(null,
-							"Successfully added your request and this is your application id :"
-									+ Data.visarequests.size());
-
 				}
 			}
 		});
@@ -359,7 +359,6 @@ public class JobVisa {
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-
 			}
 		});
 		sl_panel_2.putConstraint(SpringLayout.NORTH, btnBack, 38, SpringLayout.SOUTH, btnSaveApplication);
@@ -368,47 +367,5 @@ public class JobVisa {
 		panel_2.add(btnBack);
 	}
 
-	/**
-	 * this function create folder for user's files
-	 * 
-	 * @param username
-	 */
-	private void createApplicationFolder(String username) {
-		Path path1 = Paths.get(System.getProperty("user.dir") + "\\" + username);
-		if (!Files.exists(path1)) {
-			try {
-				Files.createDirectory(path1);
-			} catch (IOException e) {
-				throw new RuntimeException("Unexpected Error");
-			}
-		} else {
-			// create new application folder ( next update )
-		}
-	}
-
-	/**
-	 * this function upload photo to a specific given path (in our case to @usernaem
-	 * folder)
-	 * 
-	 * @param filepath  the path which the photo should upload in.
-	 * @param imageType the image type.
-	 * @param username
-	 */
-	private void uploadPicture(String filepath, String imageType, String username) {
-		try {
-			File file = new File(filepath);
-			bImage = ImageIO.read(file);
-			String extention = file.getName().substring(file.getName().lastIndexOf(".") + 1);
-			String path = System.getProperty("user.dir") + "\\" + username + "\\" + imageType + "_" + username + "."
-					+ extention;
-			ImageIO.write(bImage, extention, new File(path));
-			visafiles.put(imageType, path);
-
-		} catch (IOException e) {
-			// throw exception when it's not possible to upload the image
-			throw new RuntimeException("Unexpected Error");
-		}
-
-	}
 
 }

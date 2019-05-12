@@ -109,7 +109,7 @@ public class MainFrame {
 					new AdminPanel();
 			} else {
 				if (login(txtUsername.getText(), txtPassword.getText())) {
-					new UserInterface(txtUsername.getText());
+					new UserGui(txtUsername.getText());
 					gui.frame.setVisible(false);
 				} else {
 					txtUsername.setText(null);

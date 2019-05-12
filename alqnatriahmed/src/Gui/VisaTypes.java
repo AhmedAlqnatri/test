@@ -106,9 +106,20 @@ public class VisaTypes {
 		sl_panel.putConstraint(SpringLayout.EAST, btnNewButton_2, 0, SpringLayout.EAST, btnNewButton);
 		panel.add(btnNewButton_2);
 		
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sSoleInstance = null;
+				frame.dispose();
+				
+			}
+		});
+		springLayout.putConstraint(SpringLayout.SOUTH, btnBack, -30, SpringLayout.SOUTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, btnBack, -28, SpringLayout.EAST, frame.getContentPane());
+		frame.getContentPane().add(btnBack);
+		
 		
 		//set Default Frame Settings
 		setDefalutFrameSettings();
 	}
-
 }

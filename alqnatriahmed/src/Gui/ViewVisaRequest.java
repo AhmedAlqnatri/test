@@ -3,6 +3,8 @@ package Gui;
 import java.awt.Desktop;
 import javax.swing.JFrame;
 import javax.swing.SpringLayout;
+
+import AssistanceClasses.VisaServices;
 import Classes.Data;
 import Classes.User;
 import Classes.VisaRequest;
@@ -17,7 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 
-public class ViewVisaRequest {
+public class ViewVisaRequest extends VisaServices {
 
 	private JFrame frame;
 	private JTextField textField;
@@ -104,7 +106,8 @@ public class ViewVisaRequest {
 		textField_1.setColumns(10);
 
 		if (getUserByUsername(username) != null) {
-		} // textField_1.setText();
+			textField_1.setText(getVisaRequestByUserName(username).getVisaType());
+		}
 
 		textField_2 = new JTextField();
 		sl_panel.putConstraint(SpringLayout.SOUTH, textField_1, -12, SpringLayout.NORTH, textField_2);
@@ -186,29 +189,6 @@ public class ViewVisaRequest {
 			}
 		});
 		panel.add(btnNewButton_1);
-	}
-
-	/**
-	 * this function find user in arraylist of stored users
-	 * 
-	 * @param username
-	 * @return User Object
-	 */
-	public User getUserByUsername(String username) {
-		for (User user : Data.newusers) {
-			if (user.getUserName().equalsIgnoreCase(username))
-				return user;
-		}
-		return null;
-	}
-
-	public VisaRequest getVisaRequestByUserName(String username) {
-		for (VisaRequest vr : Data.visarequests) {
-			if (vr.getUserName().equalsIgnoreCase(username))
-
-				return vr;
-		}
-		return null;
 	}
 
 }

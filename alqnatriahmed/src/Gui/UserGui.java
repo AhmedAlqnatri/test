@@ -1,13 +1,11 @@
 package Gui;
 
-import java.awt.EventQueue;
 import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.SpringLayout;
 
-import Classes.Data;
-import Classes.VisaRequest;
+import AssistanceClasses.VisaServices;
 
 import javax.swing.JPanel;
 import javax.imageio.ImageIO;
@@ -16,17 +14,16 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-public class UserInterface {
+public class UserGui extends VisaServices {
 
 	private JFrame frame;
 
 	/**
 	 * Create the application.
 	 */
-	public UserInterface(String username) {
+	public UserGui(String username) {
 		initialize(username);
 	}
 
@@ -128,49 +125,8 @@ public class UserInterface {
 		}
 
 	}
-	
-	/**
-	 * this function check the status of visa request using entered id
-	 * @param id
-	 * @return boolean
-	 */
-	public boolean CheckVisaStatus(int id) {
-		for (VisaRequest visarequest : Data.visarequests) {
-			if (visarequest.getVisaId() == id)
-				if (visarequest.getStatus() == true)
-					return true;
-		}
-		return false;
-	}
 
 
-	/**
-	 * this function check existence of visa request using entered id
-	 * @param id
-	 * @return boolean
-	 */
 	
-	public boolean CheckExistenceVisaId(int id) {
-		for (VisaRequest visarequest : Data.visarequests) {
-			if (visarequest.getVisaId() == id)
-				return true;
-		}
-		return false;
-	}
-	
-	
-/**
- *  this function get Visa Request by username
- * @param username
- * @return VisaRequest object
- */
-	public VisaRequest getVisaRequestByUserName(String username) {
-		for (VisaRequest vr : Data.visarequests) {
-			if (vr.getUserName().equalsIgnoreCase(username))
-
-				return vr;
-		}
-		return null;
-	}
 
 }

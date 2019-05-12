@@ -27,22 +27,6 @@ public class AdminPanel {
 	private JFrame frame;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AdminPanel window = new AdminPanel();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
 	public AdminPanel() {
@@ -86,8 +70,8 @@ public class AdminPanel {
 
 		// Countries
 		String users[] = new String[Data.newusers.size()];
-		for (int i = 0; i < Data.visarequests.size(); i++) {
-			users[i] = Data.visarequests.get(i).getUserName();
+		for (int i = 0; i < Data.newusers.size(); i++) {
+			users[i] = Data.newusers.get(i).getUserName();
 		}
 		JComboBox comboBox_1 = new JComboBox(users);
 		springLayout.putConstraint(SpringLayout.NORTH, comboBox_1, 0, SpringLayout.NORTH, lblNewLabel_1);
