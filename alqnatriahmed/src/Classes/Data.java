@@ -1,25 +1,52 @@
 package Classes;
 
 import java.util.ArrayList;
+import java.util.Set;
 
-public class Data {
+import interfaces.DataObservalInterface;
+import interfaces.DataObserverChannel;
+
+public class Data implements DataObservalInterface {
 
 	public Person admin = null;
-	//aggregation
+	// aggregation
 	public UserName adminfullname = null;
-	//aggregation
+	// aggregation
 	public static ArrayList<User> newusers = new ArrayList<User>();
-	//aggregation
+	// aggregation
 	public static ArrayList<VisaRequest> visarequests = new ArrayList<VisaRequest>();
+
+	// Monitored data
+	private ArrayList<Object> monitoreddata = new ArrayList<Object>();
+	// List of Observers
+	private ArrayList<DataObserverChannel> channels = new ArrayList<>();
+
+	@Override
+	public void addObserver(DataObserverChannel channel) {
+		this.channels.add(channel);
+	}
+
+	@Override
+	public void removeObserver(DataObserverChannel channel) {
+		this.channels.remove(channel);
+	}
+
+	@Override
+	public void setUpdates(ArrayList<Object> updates) {
+		this.monitoreddata = updates;
+		for (DataObserverChannel channel : this.channels) {
+			channel.update(this.monitoreddata);
+		}
+
+	}
 
 	public Data() {
 		adminfullname = new UserName();
 		adminfullname.setFirstName("ahmed");
 		adminfullname.setLastName("alqanatri");
-		
-		
+
 		admin = new Admin("alqanatriahmed@gmail.com", "admin", "admin", adminfullname, "M");
-		
+
 		User nu = new User();
 		nu.setUserName("ahmed");
 		nu.setPassword("ahmed");
@@ -31,7 +58,7 @@ public class Data {
 		nu.setDateOfIssue("12/12/2018");
 		nu.setValidTo("12/12/2020");
 		newusers.add(nu);
-		
+
 		VisaRequest vr = new VisaRequest();
 		vr.setFullName(adminfullname);
 		vr.setUserName("ahmed");

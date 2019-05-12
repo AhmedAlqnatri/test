@@ -14,6 +14,7 @@ import javax.swing.border.LineBorder;
 
 import Classes.Data;
 import Classes.VisaRequest;
+import interfaces.DataObserverChannel;
 
 import java.awt.Color;
 import javax.swing.JTable;
@@ -22,21 +23,21 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AdminPanel {
+public class AdminPanel implements DataObserverChannel {
 
 	private JFrame frame;
 
 	/**
 	 * Create the application.
 	 */
-	public AdminPanel() {
-		initialize();
+	public AdminPanel(Data data) {
+		initialize(data);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(Data data) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 471, 330);
 		frame.setVisible(true);
@@ -106,5 +107,11 @@ public class AdminPanel {
 		springLayout.putConstraint(SpringLayout.SOUTH, btnLogOut, -46, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnLogOut, 0, SpringLayout.EAST, btnBlockUser);
 		frame.getContentPane().add(btnLogOut);
+	}
+
+	@Override
+	public void update(ArrayList<Object> o) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 public class MainFrame {
 
+	public Data data = new Data();
+	
 	JTextField txtUsername = null;
 	JTextField txtPassword = null;
 	JFrame frame = null;
@@ -31,13 +33,11 @@ public class MainFrame {
 	public void initcomponents() {
 		// Data is the initial data we have when we start the application
 		// (DatabaseLater)
-		Data data = new Data();
 
 		frame = new JFrame();
 		frame.setTitle("E-visa LogIn");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
-
 		panelTitle = new JPanel();
 		frame.getContentPane().add(BorderLayout.NORTH, panelTitle);
 		lbltitle = new JLabel("Welcome To E-Visa App");
@@ -106,7 +106,7 @@ public class MainFrame {
 		public void actionPerformed(ActionEvent event) {
 			if (txtUsername.getText().equalsIgnoreCase("admin")) {
 				if (txtPassword.getText().equalsIgnoreCase("admin"))
-					new AdminPanel();
+					new AdminPanel(data);
 			} else {
 				if (login(txtUsername.getText(), txtPassword.getText())) {
 					new UserGui(txtUsername.getText());
