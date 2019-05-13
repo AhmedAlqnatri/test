@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import javax.swing.JFrame;
 import javax.swing.SpringLayout;
 
+import AssistanceClasses.VisaFolder;
 import AssistanceClasses.VisaServices;
 import Classes.Data;
 import Classes.User;
@@ -46,6 +47,8 @@ public class ViewVisaRequest extends VisaServices {
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		SpringLayout springLayout = new SpringLayout();
 		frame.getContentPane().setLayout(springLayout);
+
+		VisaFolder visaFolder = new VisaFolder(getvisaFilebyusername(username));
 
 		JPanel panel = new JPanel();
 		springLayout.putConstraint(SpringLayout.NORTH, panel, 10, SpringLayout.NORTH, frame.getContentPane());
@@ -144,7 +147,7 @@ public class ViewVisaRequest extends VisaServices {
 			textField_4.setText(getUserByUsername(username).getValidTo());
 		}
 
-		JButton btnNewButton = new JButton("Open Attched Files");
+		JButton btnNewButton = new JButton("Open Application Folder");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -160,7 +163,8 @@ public class ViewVisaRequest extends VisaServices {
 		panel.add(btnNewButton);
 
 		JButton btnAccept = new JButton("Accept");
-		sl_panel.putConstraint(SpringLayout.WEST, btnAccept, 0, SpringLayout.WEST, textField);
+		sl_panel.putConstraint(SpringLayout.NORTH, btnAccept, 45, SpringLayout.SOUTH, btnNewButton);
+		sl_panel.putConstraint(SpringLayout.WEST, btnAccept, 35, SpringLayout.WEST, panel);
 		btnAccept.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				for (VisaRequest vr : Data.visarequests) {
@@ -174,11 +178,8 @@ public class ViewVisaRequest extends VisaServices {
 		panel.add(btnAccept);
 
 		JButton btnNewButton_1 = new JButton("Reject");
-		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1, 45, SpringLayout.SOUTH, btnNewButton);
-		sl_panel.putConstraint(SpringLayout.NORTH, btnAccept, 0, SpringLayout.NORTH, btnNewButton_1);
-		sl_panel.putConstraint(SpringLayout.EAST, btnAccept, -14, SpringLayout.WEST, btnNewButton_1);
-		sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1, 195, SpringLayout.WEST, panel);
-		sl_panel.putConstraint(SpringLayout.EAST, btnNewButton_1, 0, SpringLayout.EAST, textField);
+		sl_panel.putConstraint(SpringLayout.EAST, btnAccept, -15, SpringLayout.WEST, btnNewButton_1);
+		sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1, 129, SpringLayout.WEST, panel);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String reason = JOptionPane.showInputDialog(null, "Please Write the reason");
@@ -189,6 +190,32 @@ public class ViewVisaRequest extends VisaServices {
 			}
 		});
 		panel.add(btnNewButton_1);
-	}
 
+		JLabel lblFolderSize = new JLabel("Folder Size:");
+		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1, 25, SpringLayout.SOUTH, lblFolderSize);
+		sl_panel.putConstraint(SpringLayout.NORTH, lblFolderSize, 6, SpringLayout.SOUTH, btnNewButton);
+		panel.add(lblFolderSize);
+
+		JLabel lblNewLabel = new JLabel("");
+		sl_panel.putConstraint(SpringLayout.EAST, lblFolderSize, -7, SpringLayout.WEST, lblNewLabel);
+		sl_panel.putConstraint(SpringLayout.NORTH, lblNewLabel, 6, SpringLayout.SOUTH, btnNewButton);
+		sl_panel.putConstraint(SpringLayout.EAST, lblNewLabel, 0, SpringLayout.EAST, textField);
+		panel.add(lblNewLabel);
+		lblNewLabel.setText(visaFolder.getSize() + "");
+
+		JButton btnPrintReport = new JButton("Print Report");
+		btnPrintReport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					writeTemplatedFile(getVisaRequestByUserName(username), username);
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "Unexpected Error");
+				}
+			}
+		});
+		sl_panel.putConstraint(SpringLayout.EAST, btnNewButton_1, -9, SpringLayout.WEST, btnPrintReport);
+		sl_panel.putConstraint(SpringLayout.NORTH, btnPrintReport, 25, SpringLayout.SOUTH, lblFolderSize);
+		sl_panel.putConstraint(SpringLayout.WEST, btnPrintReport, 217, SpringLayout.WEST, panel);
+		panel.add(btnPrintReport);
+	}
 }

@@ -330,26 +330,27 @@ public class JobVisa extends VisaServices {
 				} else {
 					// checking on operation of creating a user visa folder.
 					// in case it's existed we don't do any thing.
-					if (createApplicationFolder(username)) {
-						if (uploadPicture(username, visafilesPaths, visafiles, bImage)) {
 
+					try {
+						createApplicationFolder(username);
+
+						if (uploadPicture(username, visafilesPaths, visafiles, bImage)) {
 							// add visa application for database(VisaRequests array list in our case )
 							SaveVisaApplication(username, comboBox.getSelectedItem().toString(),
 									JobVisa.class.getName(), visafiles);
-
 							JOptionPane.showMessageDialog(null,
 									"Successfully added your request and this is your application id :"
 											+ (Data.visarequests.size() - 1));
 						} else {
 							JOptionPane.showMessageDialog(null, "Unexpected Error Happen Try Later");
 						}
-
-					} else {
-						JOptionPane.showMessageDialog(null,
-								"Sorry you have a pneding application, we appreciate your pactient");
+					} catch (VisaNewFolderApplicationException exception) {
+						JOptionPane.showMessageDialog(null, exception.getMessage());
 					}
+
 				}
 			}
+
 		});
 		sl_panel_2.putConstraint(SpringLayout.WEST, btnSaveApplication, 21, SpringLayout.WEST, panel_2);
 		sl_panel_2.putConstraint(SpringLayout.EAST, btnSaveApplication, -19, SpringLayout.EAST, panel_2);
@@ -357,6 +358,7 @@ public class JobVisa extends VisaServices {
 
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 			}
@@ -366,6 +368,5 @@ public class JobVisa extends VisaServices {
 		sl_panel_2.putConstraint(SpringLayout.EAST, btnBack, -19, SpringLayout.EAST, panel_2);
 		panel_2.add(btnBack);
 	}
-
 
 }

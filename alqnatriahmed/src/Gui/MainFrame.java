@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import Classes.Data;
+import interfaces.SuperAdmin;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -14,9 +15,9 @@ import java.util.ArrayList;
 public class MainFrame {
 
 	public Data data = new Data();
-	
+
 	JTextField txtUsername = null;
-	JTextField txtPassword = null;
+	JPasswordField txtPassword = null;
 	JFrame frame = null;
 	JPanel panel, panel2, panelTitle;
 	JLabel lblUsername;
@@ -51,7 +52,7 @@ public class MainFrame {
 		lblUsername = new JLabel("Username:");
 		lblPassword = new JLabel("Password:");
 		txtUsername = new JTextField(20);
-		txtPassword = new JTextField(20);
+		txtPassword = new JPasswordField(20);
 
 		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new LoginListener());
@@ -104,10 +105,17 @@ public class MainFrame {
 	 */
 	public class LoginListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			if (txtUsername.getText().equalsIgnoreCase("admin")) {
+			switch (txtUsername.getText()) {
+			case "superadmin":
+				SuperAdmin superadmin = Data.admin;
+				if (txtPassword.getText().equalsIgnoreCase("superadmin"))
+					new AdminPanel(true);
+				break;
+			case "admin":
 				if (txtPassword.getText().equalsIgnoreCase("admin"))
-					new AdminPanel(data);
-			} else {
+					new AdminPanel(false);
+				break;
+			default:
 				if (login(txtUsername.getText(), txtPassword.getText())) {
 					new UserGui(txtUsername.getText());
 					gui.frame.setVisible(false);
@@ -117,6 +125,7 @@ public class MainFrame {
 					JOptionPane.showMessageDialog(null, "Invalid Login Details", "Login Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
+				;
 			}
 		}
 	}

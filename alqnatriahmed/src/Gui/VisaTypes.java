@@ -93,6 +93,11 @@ public class VisaTypes {
 		panel.add(btnNewButton);
 		// study visa listener
 		JButton btnNewButton_1 = new JButton("Study Visa");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+			
+		});
 		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_1, 16, SpringLayout.SOUTH, btnNewButton);
 		sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_1, 47, SpringLayout.WEST, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, btnNewButton_1, -41, SpringLayout.EAST, panel);
@@ -101,6 +106,11 @@ public class VisaTypes {
 
 		// Tourist visa listener
 		JButton btnNewButton_2 = new JButton("Tourist Visa");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new TouristVisa(username);
+			}
+		});
 		sl_panel.putConstraint(SpringLayout.NORTH, btnNewButton_2, 20, SpringLayout.SOUTH, btnNewButton_1);
 		sl_panel.putConstraint(SpringLayout.WEST, btnNewButton_2, 0, SpringLayout.WEST, btnNewButton);
 		sl_panel.putConstraint(SpringLayout.EAST, btnNewButton_2, 0, SpringLayout.EAST, btnNewButton);

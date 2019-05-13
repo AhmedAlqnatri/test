@@ -14,7 +14,6 @@ import javax.swing.border.LineBorder;
 
 import Classes.Data;
 import Classes.VisaRequest;
-import interfaces.DataObserverChannel;
 
 import java.awt.Color;
 import javax.swing.JTable;
@@ -23,21 +22,21 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AdminPanel implements DataObserverChannel {
+public class AdminPanel {
 
 	private JFrame frame;
 
 	/**
 	 * Create the application.
 	 */
-	public AdminPanel(Data data) {
-		initialize(data);
+	public AdminPanel(boolean blockEdit) {
+		initialize(blockEdit);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(Data data) {
+	private void initialize(boolean blockEdit) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 471, 330);
 		frame.setVisible(true);
@@ -80,6 +79,7 @@ public class AdminPanel implements DataObserverChannel {
 		frame.getContentPane().add(comboBox_1);
 
 		JButton btnBlockUser = new JButton("Block User");
+		btnBlockUser.setEnabled(blockEdit);
 		springLayout.putConstraint(SpringLayout.EAST, comboBox_1, -31, SpringLayout.WEST, btnBlockUser);
 		springLayout.putConstraint(SpringLayout.WEST, btnBlockUser, 275, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(btnBlockUser);
@@ -109,9 +109,4 @@ public class AdminPanel implements DataObserverChannel {
 		frame.getContentPane().add(btnLogOut);
 	}
 
-	@Override
-	public void update(ArrayList<Object> o) {
-		// TODO Auto-generated method stub
-		
-	}
 }

@@ -2,16 +2,21 @@ package AssistanceClasses;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+
+import com.x5.template.Chunk;
+import com.x5.template.Theme;
 
 import Classes.Data;
 import Classes.User;
@@ -19,8 +24,8 @@ import Classes.VisaRequest;
 
 /**
  * 
- * @author ahmed
- * this class contains the necessary functions for this application.
+ * @author ahmed this class contains the necessary functions for this
+ *         application.
  */
 public class VisaServices {
 
@@ -32,7 +37,7 @@ public class VisaServices {
 	 *         exception, in case we have a folder for the user it returns false
 	 */
 
-	public boolean createApplicationFolder(String username) {
+	public boolean createApplicationFolder(String username) throws VisaNewFolderApplicationException {
 		Path path1 = Paths.get(System.getProperty("user.dir") + "\\" + username);
 		if (!Files.exists(path1)) {
 			try {
@@ -42,7 +47,7 @@ public class VisaServices {
 				throw new RuntimeException("Unexpected Error");
 			}
 		} else {
-			return false;
+			throw new VisaNewFolderApplicationException("Sorry You Have pending Appliction");
 			// create new application folder for the same user ( next update )
 		}
 	}
@@ -169,4 +174,52 @@ public class VisaServices {
 		return null;
 	}
 
+	public ArrayList<VisaFile> getvisaFilebyusername(String username) {
+		ArrayList<VisaFile> visafiles = new ArrayList<VisaFile>();
+		VisaFile temporaryfile = null;
+		File visaFolder = new File(System.getProperty("user.dir") + "\\" + username);
+		File[] listoffiles = visaFolder.listFiles();
+		for (int i = 0; i < listoffiles.length; i++) {
+			temporaryfile = new VisaFile(listoffiles[i]);
+			visafiles.add(temporaryfile);
+		}
+		return visafiles;
+	}
+
+	/**
+	 * this function create txt file using serialization
+	 * 
+	 * @param visarequset
+	 * @throws IOException
+	 */
+	public void writeTemplatedFile(VisaRequest visarequset, String username) throws IOException {
+
+		Theme theme = new Theme();
+		Chunk chunk = theme.makeChunk("VisaTemplate", "txt");
+		Path template = Paths.get(System.getProperty("user.dir") + "\\themes\\VisaTemplate.txt");
+
+		// replace static values below with user input
+		chunk.set("id", visarequset.getVisaId());
+		chunk.set("name", visarequset.getFullName().getFirstName() + " " + visarequset.getFullName().getLastName());
+		chunk.set("visatype", visarequset.getVisaType());
+		if (visarequset.getStatus())
+			chunk.set("status", "Waiting");
+		else
+			chunk.set("status", "Accepted");
+		
+		chunk.set("description", visarequset.getDescription());
+
+		Path newfile = Paths.get(System.getProperty("user.dir") + "\\" + username + "\\" + username + ".txt");
+
+		Files.copy(template, newfile);
+
+		File file = new File(newfile.toString());
+
+		FileWriter out = new FileWriter(file);
+
+		chunk.render(out);
+
+		out.flush();
+		out.close();
+	}
 }

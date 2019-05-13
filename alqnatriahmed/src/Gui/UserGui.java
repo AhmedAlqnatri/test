@@ -39,15 +39,13 @@ public class UserGui extends VisaServices {
 
 		JPanel panel_1 = new JPanel();
 		springLayout.putConstraint(SpringLayout.NORTH, panel_1, 30, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, panel_1, 115, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, panel_1, -107, SpringLayout.EAST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, panel_1, 85, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, panel_1, -88, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(panel_1);
 		SpringLayout sl_panel_1 = new SpringLayout();
 		panel_1.setLayout(sl_panel_1);
 
 		JButton button = new JButton("Create Visa Application");
-		sl_panel_1.putConstraint(SpringLayout.NORTH, button, 10, SpringLayout.NORTH, panel_1);
-		sl_panel_1.putConstraint(SpringLayout.EAST, button, -34, SpringLayout.EAST, panel_1);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -62,6 +60,12 @@ public class UserGui extends VisaServices {
 		panel_1.add(button);
 
 		JButton btnCheckVisaStatus = new JButton("Check Visa Status");
+		sl_panel_1.putConstraint(SpringLayout.EAST, button, 0, SpringLayout.EAST, btnCheckVisaStatus);
+		sl_panel_1.putConstraint(SpringLayout.WEST, btnCheckVisaStatus, 45, SpringLayout.WEST, panel_1);
+		sl_panel_1.putConstraint(SpringLayout.EAST, btnCheckVisaStatus, -34, SpringLayout.EAST, panel_1);
+		sl_panel_1.putConstraint(SpringLayout.WEST, button, 0, SpringLayout.WEST, btnCheckVisaStatus);
+		sl_panel_1.putConstraint(SpringLayout.SOUTH, button, -23, SpringLayout.NORTH, btnCheckVisaStatus);
+		sl_panel_1.putConstraint(SpringLayout.SOUTH, btnCheckVisaStatus, -46, SpringLayout.SOUTH, panel_1);
 		btnCheckVisaStatus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -69,9 +73,9 @@ public class UserGui extends VisaServices {
 					if (CheckExistenceVisaId(Id))
 						if (CheckVisaStatus(Id))
 							JOptionPane.showMessageDialog(null, "Congratulations You Got the Visa");
-						else
-							JOptionPane.showMessageDialog(null, "Your visa application is refused because of :"
-									+ getVisaRequestByUserName(username).getDescription());
+						else if (CheckVisaStatus(Id) == false)
+							JOptionPane.showInputDialog(null, "Your visa application's status is refused because of :"
+									+ getVisaRequestByUserName(username).getDescription()+ " Write Your Complaining");
 					else
 						JOptionPane.showMessageDialog(null, "The Id enterd is incorrect ,try once more");
 
@@ -81,19 +85,10 @@ public class UserGui extends VisaServices {
 
 			}
 		});
-		sl_panel_1.putConstraint(SpringLayout.NORTH, btnCheckVisaStatus, 16, SpringLayout.SOUTH, button);
-		sl_panel_1.putConstraint(SpringLayout.WEST, btnCheckVisaStatus, 0, SpringLayout.WEST, button);
-		sl_panel_1.putConstraint(SpringLayout.EAST, btnCheckVisaStatus, 0, SpringLayout.EAST, button);
 		panel_1.add(btnCheckVisaStatus);
 
 		JPanel panel_2 = new JPanel();
 		springLayout.putConstraint(SpringLayout.SOUTH, panel_1, -29, SpringLayout.NORTH, panel_2);
-
-		JButton btnNewButton = new JButton("Apply a complaint");
-		sl_panel_1.putConstraint(SpringLayout.NORTH, btnNewButton, 18, SpringLayout.SOUTH, btnCheckVisaStatus);
-		sl_panel_1.putConstraint(SpringLayout.WEST, btnNewButton, 0, SpringLayout.WEST, button);
-		sl_panel_1.putConstraint(SpringLayout.EAST, btnNewButton, 0, SpringLayout.EAST, button);
-		panel_1.add(btnNewButton);
 		springLayout.putConstraint(SpringLayout.NORTH, panel_2, -58, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, panel_2, -152, SpringLayout.EAST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, panel_2, -10, SpringLayout.SOUTH, frame.getContentPane());
@@ -125,8 +120,5 @@ public class UserGui extends VisaServices {
 		}
 
 	}
-
-
-	
 
 }

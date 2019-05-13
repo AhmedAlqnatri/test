@@ -3,12 +3,11 @@ package Classes;
 import java.util.ArrayList;
 import java.util.Set;
 
-import interfaces.DataObservalInterface;
-import interfaces.DataObserverChannel;
+import interfaces.SuperAdmin;
 
-public class Data implements DataObservalInterface {
+public class Data {
 
-	public Person admin = null;
+	public static Admin admin = null;
 	// aggregation
 	public UserName adminfullname = null;
 	// aggregation
@@ -16,36 +15,14 @@ public class Data implements DataObservalInterface {
 	// aggregation
 	public static ArrayList<VisaRequest> visarequests = new ArrayList<VisaRequest>();
 
-	// Monitored data
-	private ArrayList<Object> monitoreddata = new ArrayList<Object>();
-	// List of Observers
-	private ArrayList<DataObserverChannel> channels = new ArrayList<>();
-
-	@Override
-	public void addObserver(DataObserverChannel channel) {
-		this.channels.add(channel);
-	}
-
-	@Override
-	public void removeObserver(DataObserverChannel channel) {
-		this.channels.remove(channel);
-	}
-
-	@Override
-	public void setUpdates(ArrayList<Object> updates) {
-		this.monitoreddata = updates;
-		for (DataObserverChannel channel : this.channels) {
-			channel.update(this.monitoreddata);
-		}
-
-	}
-
 	public Data() {
 		adminfullname = new UserName();
 		adminfullname.setFirstName("ahmed");
 		adminfullname.setLastName("alqanatri");
-
 		admin = new Admin("alqanatriahmed@gmail.com", "admin", "admin", adminfullname, "M");
+
+//		Person person = admin;
+//		SuperAdmin superadmin = admin;
 
 		User nu = new User();
 		nu.setUserName("ahmed");
@@ -62,7 +39,9 @@ public class Data implements DataObservalInterface {
 		VisaRequest vr = new VisaRequest();
 		vr.setFullName(adminfullname);
 		vr.setUserName("ahmed");
+		vr.setVisaType("Jop Visa");
 		vr.setStatus(false);
+		vr.setDescription("Political Reasons");
 		vr.setToCountry("Syria");
 		vr.setApplyDate("12/12/2018");
 		visarequests.add(vr);

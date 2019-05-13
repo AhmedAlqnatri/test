@@ -1,11 +1,12 @@
 package Classes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VisaRequest {
+public class VisaRequest implements Serializable {
 
 	private long VisaId = 0;
 	private String UserName = null;
@@ -14,7 +15,7 @@ public class VisaRequest {
 	private String ToCountry = null;
 	private String ApplyDate = null;
 	private boolean Status = false;
-	private String Description = "Waitting";
+	private String Description = "";
 	// hash map of every visa request <Filetype , username>
 	private Map<String, String> VisaFiles = new HashMap<String, String>();
 

@@ -43,8 +43,8 @@ public interface Validation {
 	public boolean checkUniqeUserName(String usernaem, ArrayList<User> users);
 
 	/**
-	 * this function determines if the password value and confirmation password value
-	 * entered is matched.
+	 * this function determines if the password value and confirmation password
+	 * value entered is matched.
 	 * 
 	 * @param password the entered Password.
 	 * @param Confpass the entered Confirmation password.
