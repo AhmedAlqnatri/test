@@ -1,10 +1,12 @@
 package AssistanceClasses;
 
+/**
+ * this is my own exception which thorws in case the user has a pending application 
+ * @author ahmed
+ *
+ */
 public class VisaNewFolderApplicationException extends Exception {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private String message;
