@@ -1,0 +1,11 @@
+							Visa Applciation Description
+
+Application Id {$id}
+----------------------------
+Full name is {$name}.
+----------------------------
+Visa Type is {$visatype}
+----------------------------
+Application Status is {$status}.
+----------------------------
+Description {$description}

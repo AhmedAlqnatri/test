@@ -1,0 +1,11 @@
+							Visa Applciation Description
+
+Application Id 0
+----------------------------
+Full name is ahmed alqanatri.
+----------------------------
+Visa Type is Jop Visa
+----------------------------
+Application Status is {$status}.
+----------------------------
+Description Waitting
