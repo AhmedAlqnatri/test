@@ -1,5 +1,4 @@
 package Gui;
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -46,6 +45,9 @@ public class JobVisa extends VisaServices {
 	private int progress;
 	public BufferedImage bImage = null;
 	public Image scaledImage = null;
+	/**
+	 * 
+	 */
 	private Map<String, String> visafilesPaths = new HashMap<String, String>();
 	public Map<String, String> visafiles = new HashMap<String, String>();
 
